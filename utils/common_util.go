@@ -16,7 +16,6 @@ func UnmarshalDynamicExampleJson(rawJson string) (result map[string]interface{},
 	}
 
 	// Unmarshal the inner JSON into a map
-	inner := make(map[string]interface{}, 0)
 	for key, value := range outer {
 		// Check if "Data" is a valid JSON object
 		dataStr, err := checkTypeDataOfJson(value)
@@ -29,6 +28,7 @@ func UnmarshalDynamicExampleJson(rawJson string) (result map[string]interface{},
 			return result, err
 		}
 
+		inner := make(map[string]interface{}, 0)
 		err = json.Unmarshal([]byte(dataStr), &inner)
 		if err != nil {
 			log.Fatal("Error unmarshaling inner JSON:", err)
@@ -36,6 +36,7 @@ func UnmarshalDynamicExampleJson(rawJson string) (result map[string]interface{},
 		}
 
 		outer[key] = inner
+
 	}
 
 	result = outer
