@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{.Title}}</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://unpkg.com/htmx.org"></script>
+</head>
+
+<body>
+  <h1>Welcome to HTMX + Fiber</h1>
+  <button hx-get="/hello" hx-swap="outerHTML">Click Me</button><br><br>
+
+  <textarea name="input-real-json" id="real-json" hx-post="/input-real-json" hx-swap="innerHTML">
+    {
+      "name": "John Doe",
+      "age": 30,
+      "cars": {
+        "car1": "Ford",
+        "car2": "BMW",
+        "car3": "Fiat"
+      }
+    }
+  </textarea>
+
+</body>
+
+</html>
