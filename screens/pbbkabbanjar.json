@@ -1,0 +1,40 @@
+{
+    "arrange": [
+        "data",
+        "datetime",
+        "info",
+        "subscriberid",
+        "PBB Th",
+        "nama",
+        "tgl-jatuh-tempo",
+        "kecamatan",
+        "tagihan",
+        "kelurahan",
+        "denda",
+        "AGN Ref",
+        "Total Tagihan",
+        "terbilang",
+        "refnum",
+        "rp_amount",
+        "rp_tag"
+    ],
+    "adjustment": {
+        "inq:data": "pay:data",
+        "inq:datetime": "pay:datetime",
+        "inq:info": "pay:info",
+        "inq:subscriberid": "pay:receipt:0,0,2,0",
+        "inq:data:0,0": "pay:receipt:0,0,2,1",
+        "inq:info:nama": "pay:receipt:0,0,3,0",
+        "inq:info:tempo": "pay:receipt:0,0,3,1",
+        "inq:info:kecamatan": "pay:receipt:0,0,4,0",
+        "inq:screen:0,0,1,0": "pay:receipt:0,0,4,1",
+        "inq:info:kelurahan": "pay:receipt:0,0,5,0",
+        "inq:screen:0,0,2,0": "pay:receipt:0,0,5,1",
+        "inq:refnum": "pay:receipt:0,0,6,0",
+        "inq:screen:0,0,5,0": "pay:receipt:0,0,11,0",
+        "pay:receipt:0,0,11,0": "terbilang",
+        "refnum": "pay:refnum",
+        "rp_amount": "pay:rp_amount",
+        "rp_tag": "pay:rp_tag"
+    }
+}
