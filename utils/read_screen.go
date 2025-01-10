@@ -7,6 +7,14 @@ import (
 	"path/filepath"
 )
 
+type ScreenParameter struct {
+	Filename   string            `json:"filename,omitempty"`
+	ScreenName string            `json:"screen_name"`
+	Arrange    []string          `json:"arrange"`
+	Required   []string          `json:"required"`
+	Adjustment map[string]string `json:"adjustment"`
+}
+
 func ReadScreen(screenData embed.FS) (result []map[string]interface{}, err error) {
 
 	// Get a list of all files in the "screens" directory
@@ -51,7 +59,7 @@ func ReadScreen(screenData embed.FS) (result []map[string]interface{}, err error
 	return
 }
 
-func ReadExplicitScreen(screenData embed.FS, screenFilename string) (result map[string]interface{}, err error) {
+func ReadExplicitScreen(screenData embed.FS, screenFilename string) (result ScreenParameter, err error) {
 	data, err := screenData.ReadFile(screenFilename)
 	if err != nil {
 		err = fmt.Errorf("error reading file: %s", err)
@@ -59,12 +67,14 @@ func ReadExplicitScreen(screenData embed.FS, screenFilename string) (result map[
 	}
 
 	// Unmarshal the JSON data into a map
-	result = make(map[string]interface{}, 0)
-	err = json.Unmarshal(data, &result)
+	var screenParam ScreenParameter
+	err = json.Unmarshal(data, &screenParam)
 	if err != nil {
 		err = fmt.Errorf("error unmarshalling JSON: %s", err)
 		return
 	}
+
+	result = screenParam
 
 	// Print the resulting map
 	fmt.Println("Resulting map:", result)
