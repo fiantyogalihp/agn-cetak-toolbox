@@ -2,22 +2,26 @@
 cetak bukti bayar depend on angon issue
 
 ## TODO
-1. "/" load "Name" from all screen.json filename and replace it to the radio button htmx as "format validation"
-2. when choose a radio button, its gonna be load the screen.json file and filename for explicit
-3. send the format validation data inside the screen.json to backend which gonna be processed
-4. format screen:
 
 
+### Format screen: 
 ```json
 {
+  "screen_name": "PBB Kab. Banjar",
   "arrange": [
-    "datetime",
-    "rp_tag",
-    "dll ...",
+    "1st_json_field",
+    "2nd_json_field",
+    "3rd_json_field",
+    "4th_json_field",
+    "etc"
+  ],
+  "required": [
+    "<your_required_json_field_to_adjust>"
+    "etc",
   ],
   "adjustment": {
-    "inq:receipt": "pay:receipt:0,0,2,1",
-    "source": "dest"
+    "<destination>": "<source>",
+    "pay:receipt:0,0,2,1": "inq:receipt" // example
   }
 }
 ```
