@@ -50,3 +50,24 @@ func ReadScreen(screenData embed.FS) (result []map[string]interface{}, err error
 
 	return
 }
+
+func ReadExplicitScreen(screenData embed.FS, screenFilename string) (result map[string]interface{}, err error) {
+	data, err := screenData.ReadFile(screenFilename)
+	if err != nil {
+		err = fmt.Errorf("error reading file: %s", err)
+		return
+	}
+
+	// Unmarshal the JSON data into a map
+	result = make(map[string]interface{}, 0)
+	err = json.Unmarshal(data, &result)
+	if err != nil {
+		err = fmt.Errorf("error unmarshalling JSON: %s", err)
+		return
+	}
+
+	// Print the resulting map
+	fmt.Println("Resulting map:", result)
+
+	return
+}
