@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"embed"
+	"fmt"
 	"log"
 
 	"github.com/fiantyogalihp/dynamic-json-parsing-struct/utils"
@@ -16,10 +17,13 @@ func Index(c *fiber.Ctx, embedScreen embed.FS) error {
 		return err
 	}
 
-	newScreen := make([]map[string]interface{}, 0)
+	newScreen := make([]map[string]string, 0)
 	for _, screen := range screenResult {
 		if _, ok := screen["filename"]; ok {
-			newScreen = append(newScreen, screen)
+			newScreen = append(newScreen, map[string]string{
+				"filename":    fmt.Sprint(screen["filename"]),
+				"screen_name": fmt.Sprint(screen["screen_name"]),
+			})
 		}
 	}
 
