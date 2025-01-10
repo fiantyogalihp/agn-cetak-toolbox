@@ -13,6 +13,17 @@
 
 <body>
   <h1>Welcome to HTMX + Fiber</h1>
+
+  <div id="items-container">
+    <label>
+      Format Validation: <br>
+      {{range .Screen}}
+      <input type="radio" id="item" name="screen_name" value={{.filename}}>
+      <label for="item">{{.screen_name}}</label><br>
+      {{end}}
+    </label>
+  </div>
+
   <button hx-get="/hello" hx-swap="outerHTML">Click Me</button><br><br>
 
   <textarea name="input-real-json" id="real-json" hx-post="/input-real-json" hx-swap="innerHTML">
