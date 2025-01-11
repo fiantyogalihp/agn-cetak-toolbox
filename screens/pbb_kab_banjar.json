@@ -14,13 +14,13 @@
         "pay"
     ],
     "required": [
-        "data",
-        "datetime",
-        "info",
+        "inq:data",
+        "inq:datetime",
+        "inq:info",
         "subscriberid",
         "PBB Th",
         "nama",
-        "tgl-jatuh-tempo",
+        "tempo",
         "kecamatan",
         "tagihan",
         "kelurahan",
