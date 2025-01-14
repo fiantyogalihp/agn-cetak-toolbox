@@ -13,6 +13,9 @@ import (
 //go:embed templates/*
 var templatesFS embed.FS
 
+//go:embed screens/*.json
+var jsonFiles embed.FS
+
 func main() {
 	// Set up Fiber with the HTML template engine
 	engine := html.NewFileSystem(http.FS(templatesFS), ".html")
@@ -24,7 +27,7 @@ func main() {
 	// Serve static files (e.g., CSS/JS)
 	app.Static("/static", "./static")
 
-	routers.SetRouters(app)
+	routers.SetRouters(app, jsonFiles)
 
 	// Start the server
 	log.Fatal(app.Listen(":36530"))
