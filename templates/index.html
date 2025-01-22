@@ -12,32 +12,100 @@
 </head>
 
 <body>
-  <h1>Welcome to HTMX + Fiber</h1>
+  <div class="container">
+    <div class="section">
+      <div class="radio">
+        <div><input type="radio" name="option" value="1"> PPOB</div>
+        <div><input type="radio" name="option" value="2"> PDAM</div>
+        <div><input type="radio" name="option" value="3"> MITRACOMM</div>
+      </div>
+      
 
-  <div id="items-container">
-    <label>
-      Format Validation: <br>
-      {{range .Screen}}
-      <input type="radio" id="item" name="screen_name" value={{.filename}}>
-      <label for="item">{{.screen_name}}</label><br>
-      {{end}}
-    </label>
+    <!-- TEXTAREA -->
+      <div class="textarea">
+        <div class="textarea-wrapper">
+          <label for="contoh-response">Contoh response:</label>
+          <textarea id="contoh-response" placeholder="Type here..."></textarea>
+        </div>
+        <div class="textarea-wrapper">
+          <label for="update-response">Update response:</label>
+          <textarea id="update-response" placeholder="Type here..."></textarea>
+        </div>
+      </div>
+
+      <!-- button -->
+        <div class="btn-group">
+          <button class="btn1">Submit</button>
+          <button class="btn1">Clear</button>
+          <button class="btn1">Cancel</button>
+        </div>
+
+      <!-- Textarea bottom -->
+      <div class="btn-group1">
+        <button class="button">rp_tag</button>
+        <button class="button">refnum</button>
+        <button class="button">nop</button>
+        <button class="button">dll...</button>
+      </div>
+       <!-- Bottom Textarea with Actions -->
+      <div class="textarea-fullscreen-wrapper">
+        <textarea id="textarea-large" placeholder="Type here for more details..."></textarea>
+        <div class="textarea-actions">
+          <button class="Btn" id="btn-copy">
+            <svg viewBox="0 0 512 512" class="svgIcon" height="1em"><path d="M288 448H64V224h64V160H64c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H288c35.3 0 64-28.7 64-64V384H288v64zm-64-96H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H224c-35.3 0-64 28.7-64 64V288c0 35.3 28.7 64 64 64z"></path></svg>
+          <!-- <p class="text">COPY</p> -->
+            <span class="effect"></span>
+          </button>
+          <button class="Btn" id="fullscreen-btn" title="Fullscreen">
+            <svg class="svgIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z"/></svg>
+            <span class="effect"></span>
+          </button>
+        </div>
+      </div>
+      <!-- popup -->
+      <div id="popup" class="popup">
+        <div class="popup-content">
+          <button id="close-popup" class="close-popup">Close</button>
+          <textarea id="popup-textarea" placeholder="Type something..."></textarea>
+        </div>
+      </div>
+
+    </div>     
   </div>
 
-  <button hx-get="/hello" hx-swap="outerHTML">Click Me</button><br><br>
-
-  <textarea name="input-real-json" id="real-json" hx-post="/input-real-json" hx-swap="innerHTML">
-    {
-      "name": "John Doe",
-      "age": 30,
-      "cars": {
-        "car1": "Ford",
-        "car2": "BMW",
-        "car3": "Fiat"
-      }
-    }
-  </textarea>
-
 </body>
+<script>
+   // Get elements
+   const fullscreenButton = document.getElementById('fullscreen-btn');
+    const popup = document.getElementById('popup');
+    const popupTextarea = document.getElementById('popup-textarea');
+    const closePopupButton = document.getElementById('close-popup');
 
+    // Function to open popup and transfer content
+    fullscreenButton.addEventListener('click', () => {
+      popup.style.display = 'flex'; // Show the popup
+      popupTextarea.value = mainTextarea.value; // Transfer content to popup textarea
+      popupTextarea.focus(); // Focus on the textarea in the popup
+    });
+
+    // Function to close popup and transfer content back
+    closePopupButton.addEventListener('click', () => {
+      popup.style.display = 'none'; // Hide the popup
+      mainTextarea.value = popupTextarea.value; // Transfer content back to main textarea
+    });
+
+  // Copy functionality
+  const copyButton = document.getElementById('btn-copy');
+const textareaLarge = document.getElementById('textarea-large'); // Pastikan ID sesuai
+
+copyButton.addEventListener('click', () => {
+  if (textareaLarge) {
+    textareaLarge.select();
+    navigator.clipboard.writeText(textareaLarge.value).then(() => {
+      alert('Text copied to clipboard!');
+    })
+  }
+});
+
+</script>
 </html>
