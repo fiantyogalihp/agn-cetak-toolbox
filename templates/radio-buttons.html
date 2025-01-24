@@ -1,0 +1,9 @@
+<div class="radio">
+  Format Validation: <br />
+  {{range .screens}}
+  <label>
+    <input type="radio" name="screen-choice" value="{{.value}}" />
+    {{.label}}
+  </label>
+  {{end}}
+</div>
