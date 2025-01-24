@@ -60,7 +60,7 @@ func ReadScreen(screenData embed.FS) (result []map[string]interface{}, err error
 }
 
 func ReadExplicitScreen(screenData embed.FS, screenFilename string) (result ScreenParameter, err error) {
-	data, err := screenData.ReadFile(screenFilename)
+	data, err := screenData.ReadFile("screens/" + screenFilename)
 	if err != nil {
 		err = fmt.Errorf("error reading file: %s", err)
 		return
@@ -77,7 +77,7 @@ func ReadExplicitScreen(screenData embed.FS, screenFilename string) (result Scre
 	result = screenParam
 
 	// Print the resulting map
-	fmt.Println("Resulting map:", result)
+	fmt.Println("Result:", result)
 
 	return
 }
