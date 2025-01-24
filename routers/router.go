@@ -10,7 +10,6 @@ import (
 func SetRouters(fiberApp *fiber.App, embedScreens embed.FS) {
 	// Routes
 	fiberApp.Get("/", controllers.Index)
-	fiberApp.Get("/hello", controllers.HelloHandler)
 	// fiberApp.Post("/process", controllers.DemoProcess)
 	// fiberApp.Get("/input-real-json", controllers.ParsingInputJson)
 	// fiberApp.Get("/example", controllers.ExampleHandler)
