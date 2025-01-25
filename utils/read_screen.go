@@ -77,7 +77,7 @@ func ReadExplicitScreen(screenData embed.FS, screenFilename string) (result Scre
 	result = screenParam
 
 	// Print the resulting map
-	fmt.Println("Result:", result)
+	// fmt.Println("Result:", result)
 
 	return
 }
