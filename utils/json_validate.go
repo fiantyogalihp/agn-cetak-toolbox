@@ -133,6 +133,7 @@ func convertSliceStr(slice []interface{}, resultStrChan chan<- []string, errChan
 	err = json.Unmarshal(dataJson, &splitDataStr)
 	if err != nil {
 		errChan <- err
+		return
 	}
 
 	mu.Lock()
@@ -158,6 +159,7 @@ func convertSliceInt(slice []interface{}, resultIntChan chan<- []int, errChan ch
 	err = json.Unmarshal(dataJson, &splitDataInt)
 	if err != nil {
 		errChan <- err
+		return
 	}
 
 	mu.Lock()
@@ -175,7 +177,9 @@ func CheckExampleJSONInput(errChan chan<- error, jsonInput string, requiredField
 
 		result, err := UnmarshalDynamicExampleJson(jsonInput)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
+			errChan <- err
+			return
 		}
 
 		rawJSONChan <- result
@@ -217,7 +221,8 @@ func CheckExampleJSONInput(errChan chan<- error, jsonInput string, requiredField
 				for _, v := range arrLocation {
 					dataInt, err := strconv.Atoi(v)
 					if err != nil {
-						log.Fatal(err)
+						log.Println(err)
+						return
 					}
 					arrLocationInt = append(arrLocationInt, dataInt)
 				}

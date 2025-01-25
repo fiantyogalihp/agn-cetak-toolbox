@@ -11,7 +11,7 @@ func UnmarshalDynamicExampleJson(rawJson string) (result map[string]interface{},
 	outer := make(map[string]interface{}, 0)
 	err = json.Unmarshal([]byte(rawJson), &outer)
 	if err != nil {
-		log.Fatal("Error unmarshaling outer JSON:", err)
+		log.Println("Error unmarshaling outer JSON:", err)
 		return
 	}
 
@@ -24,14 +24,14 @@ func UnmarshalDynamicExampleJson(rawJson string) (result map[string]interface{},
 				continue
 			}
 
-			log.Fatal(err)
+			log.Println(err)
 			return result, err
 		}
 
 		inner := make(map[string]interface{}, 0)
 		err = json.Unmarshal([]byte(dataStr), &inner)
 		if err != nil {
-			log.Fatal("Error unmarshaling inner JSON:", err)
+			log.Println("Error unmarshaling inner JSON:", err)
 			return result, err
 		}
 
