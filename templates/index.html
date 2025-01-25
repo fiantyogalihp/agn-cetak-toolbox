@@ -23,7 +23,6 @@
         <!-- TEXTAREA -->
         <div class="textarea">
           <div class="textarea-wrapper">
-            <!-- <span class="htmx-validate">Validating...</span> -->
             <label for="contoh-response">Contoh response:</label>
             <div id="json-validate-response"></div>
             <textarea
@@ -32,10 +31,10 @@
               placeholder="Type here..."
               hx-post="/validate/json-field"
               hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+              onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
               hx-include="[name='screen-choice']:checked"
               hx-target="#json-validate-response"
               hx-swap="outerHTML"
-              hx-indicator=".htmx-validate"
             ></textarea>
           </div>
           <div class="textarea-wrapper">
@@ -49,16 +48,7 @@
 
         <!-- button -->
         <div class="btn-group">
-          <button
-            class="btn1"
-            hx-post="/process"
-            hx-trigger="click"
-            hx-include="[name='screen-choice']:checked, [name='contoh-response']"
-            hx-target="#response"
-            hx-swap="outerHTML"
-          >
-            Submit
-          </button>
+          <button class="btn1">Submit</button>
           <button class="btn1">Clear</button>
           <button class="btn1">Cancel</button>
         </div>

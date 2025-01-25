@@ -10,9 +10,6 @@ import (
 func SetRouters(fiberApp *fiber.App, embedScreens embed.FS) {
 	// Routes
 	fiberApp.Get("/", controllers.Index)
-	// fiberApp.Post("/process", controllers.DemoProcess)
-	// fiberApp.Get("/input-real-json", controllers.ParsingInputJson)
-	// fiberApp.Get("/example", controllers.ExampleHandler)
 
 	// UI COMPONENTS GROUP ROUTER
 	components := fiberApp.Group("/components")
@@ -23,7 +20,7 @@ func SetRouters(fiberApp *fiber.App, embedScreens embed.FS) {
 	// INPUT VALIDATION GROUP ROUTER
 	validate := fiberApp.Group("/validate")
 	validate.Post("/json-field", func(c *fiber.Ctx) error {
-		return controllers.ValidateJsonField(c, embedScreens)
+		return controllers.ValidateJSONField(c, embedScreens)
 	})
 
 }
