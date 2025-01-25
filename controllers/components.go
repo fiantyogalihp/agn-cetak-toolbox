@@ -30,7 +30,7 @@ func GetScreenChoices(c *fiber.Ctx, embedScreen embed.FS) error {
 	}
 
 	// Return the HTML response
-	return c.Render("templates/radio-buttons", fiber.Map{
+	return c.Render("templates/radio_buttons", fiber.Map{
 		"screens": newScreen,
 	})
 }
