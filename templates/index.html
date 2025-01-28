@@ -15,7 +15,7 @@
       <div class="section">
         <!-- RADIO BUTTONS -->
         <div
-          hx-get="/components/screen-choice"
+          hx-get="/v1/components/screen-choice"
           hx-trigger="load"
           hx-swap="outerHTML"
         ></div>
@@ -24,46 +24,66 @@
         <div class="textarea">
           <div class="textarea-wrapper">
             <label for="contoh-response">Contoh response:</label>
-            <div id="json-validate-response"></div>
+            <div id="response-contoh"></div>
             <textarea
               id="contoh-response"
               name="contoh-response"
               placeholder="Type here..."
-              hx-post="/validate/json-field"
+              hx-post="/v1/validate/json/source"
               hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
               onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
               hx-include="[name='screen-choice']:checked"
-              hx-target="#json-validate-response"
+              hx-target="#response-contoh"
               hx-swap="outerHTML"
             ></textarea>
           </div>
           <div class="textarea-wrapper">
             <label for="update-response">Update response:</label>
+            <div id="response-update"></div>
             <textarea
               id="update-response"
+              name="update-response"
               placeholder="Type here..."
+              hx-post="/v1/validate/json/destination"
+              hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+              onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
+              hx-include="[name='screen-choice']:checked"
+              hx-target="#response-update"
+              hx-swap="outerHTML"
             ></textarea>
           </div>
         </div>
 
         <!-- button -->
         <div class="btn-group">
-          <button class="btn1">Submit</button>
+          <button
+            class="btn1"
+            name="submit"
+            hx-post="/print-json"
+            hx-trigger="click"
+            hx-include="[name='screen-choice']:checked, [name='contoh-response'], [name='update-response']"
+            hx-target="#response-print"
+            hx-swap="outerHTML"
+          >
+            Submit
+          </button>
           <button class="btn1">Clear</button>
           <button class="btn1">Cancel</button>
         </div>
 
         <!-- Textarea bottom -->
-        <div class="btn-group1">
+        <!-- <div class="btn-group1">
           <button class="button">rp_tag</button>
           <button class="button">refnum</button>
           <button class="button">nop</button>
           <button class="button">dll...</button>
-        </div>
+        </div> -->
         <!-- Bottom Textarea with Actions -->
         <div class="textarea-fullscreen-wrapper">
+          <div id="response-print"></div>
           <textarea
             id="textarea-large"
+            name="textarea-large"
             placeholder="Type here for more details..."
           ></textarea>
           <div class="textarea-actions">
