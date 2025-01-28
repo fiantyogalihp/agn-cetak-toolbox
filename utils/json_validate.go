@@ -168,23 +168,7 @@ func convertSliceInt(slice []interface{}, resultIntChan chan<- []int, errChan ch
 
 }
 
-func CheckExampleJSONInput(errChan chan<- error, jsonInput string, requiredField []string) {
-
-	// GET UNMARSHALED RAW JSON
-	rawJSONChan := make(chan map[string]interface{})
-	go func() {
-		defer close(rawJSONChan)
-
-		result, err := UnmarshalDynamicExampleJson(jsonInput)
-		if err != nil {
-			log.Println(err)
-			errChan <- err
-			return
-		}
-
-		rawJSONChan <- result
-
-	}()
+func CheckJSONInput(errChan chan<- error, rawJSON map[string]interface{}, requiredField []string, shouldSkip func(data string) bool) {
 
 	arrLocationChan := make(chan [][]interface{})
 	go func() {
@@ -196,6 +180,12 @@ func CheckExampleJSONInput(errChan chan<- error, jsonInput string, requiredField
 		for _, v := range requiredField {
 
 			splitData := strings.Split(v, ":")
+
+			// If the check function is provided and returns true, skip this iteration
+			// CONTINUE 'PAY' FIELD CHECK
+			if shouldSkip != nil && shouldSkip(splitData[0]) {
+				continue
+			}
 
 			wg.Add(1)
 			go func(splitData []string) {
@@ -240,10 +230,6 @@ func CheckExampleJSONInput(errChan chan<- error, jsonInput string, requiredField
 	wg := sync.WaitGroup{}
 	mu := sync.Mutex{}
 
-	// Channels for collecting results and errors
-	// errChan = make(chan error, 10)
-
-	rawJSON := <-rawJSONChan
 	// fmt.Println(rawJSON)
 
 	// Read from the channel
@@ -281,9 +267,7 @@ func CheckExampleJSONInput(errChan chan<- error, jsonInput string, requiredField
 	// Wait for all goroutines to finish
 	go func() {
 		wg.Wait()
-		// close(splitDataStrChan)
-		// close(arrLocationIntChan)
-		defer close(errChan)
+		close(errChan)
 	}()
 
 }
