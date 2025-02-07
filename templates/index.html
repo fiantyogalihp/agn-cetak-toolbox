@@ -52,7 +52,7 @@
                 </div>
               </div>
             </div>
-            <!-- End Alert -->          
+            <!-- End Alert -->
             <!-- Button -->
               <!-- Button Copy -->
               <button type="button"  class="btn-copy absolute bottom-2 right-12 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
@@ -64,7 +64,7 @@
               <button type="button" id="fullscreenButton" class="fullscreenButton absolute bottom-2 right-2 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                </svg>                  
+                </svg>
               </button>
             <!-- End Button -->
           </div>
@@ -73,14 +73,14 @@
           <label class="block text-sm font-medium text-[#38BDF8] mb-2">Update response :</label>
           <div id="response-update"></div>
           <div class="w-full relative rounded-lg bg-[#1E293B] outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600">
-            <textarea rows="10" id="description" class="description textToCopy w-full resize-none px-3 py-1.5 text-base text-white placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="Write a description..." 
+            <textarea rows="10" id="description" class="description textToCopy w-full resize-none px-3 py-1.5 text-base text-white placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="Write a description..."
             hx-post="/v1/validate/json/destination"
             hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
             onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
             hx-include="[name='screen-choice']:checked"
             hx-target="#response-update"
             hx-swap="outerHTML"></textarea>
-          
+
             <!-- Button -->
             <button type="button"  class="btn-copy absolute bottom-2 right-12 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
@@ -90,21 +90,21 @@
             <button type="button" id="fullscreenButton" class="fullscreenButton absolute bottom-2 right-2 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-              </svg>                  
+              </svg>
             </button>
             <!-- End Button -->
           </div>
         </div>
-      </div>      
+      </div>
       <!-- Button Submit, Cancel & Clear -->
       <div class="flex w-full px-6 mt-4 justify-start">
         <span class="isolate inline-flex rounded-md shadow-sm">
-          <button type="button" name="submit"  
-                  hx-post="/print-json"
+          <button type="button" name="submit"
+          hx-post="/v1/print/json"
                   hx-trigger="click"
                   hx-include="[name='screen-choice']:checked, [name='contoh-response'], [name='update-response']"
                   hx-target="#response-print"
-                  hx-swap="outerHTML" 
+                  hx-swap="outerHTML"
                   class="relative cursor-pointer inline-flex items-center rounded-l-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-gray-300 hover:bg-sky-600 focus:z-10">Submit</button>
           <button type="button" class="relative cursor-pointer -ml-px inline-flex items-center bg-sky-500 px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-gray-300 hover:bg-sky-600 focus:z-10">Cancel</button>
           <button type="button" id="clear-btn" class="relative cursor-pointer -ml-px inline-flex items-center rounded-r-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-gray-300 hover:bg-sky-600 focus:z-10">Clear</button>
@@ -125,7 +125,7 @@
             <button type="button" id="fullscreen-btn" class="fullscreenButton absolute bottom-2 right-2 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-              </svg>                  
+              </svg>
             </button>
             <!-- End Button -->
           </div>
@@ -159,7 +159,7 @@
       //   button.addEventListener("click", function () {
       //     let textAreas = document.querySelectorAll(".textToCopy");
       //     let textToCopy = textAreas[index]; // Pilih textarea yang sesuai dengan tombol
-        
+
       //     textToCopy.select();
       //     document.execCommand("copy");
       //     alert("Teks berhasil disalin!");
@@ -205,8 +205,8 @@
         textarea.value = "";
       });
     });
-    
-    // Fullscreen      
+
+    // Fullscreen
     document.querySelectorAll('.fullscreenButton').forEach(function(button) {
       button.addEventListener('click', function() {
         document.getElementById('popup').classList.remove('hidden');
