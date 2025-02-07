@@ -7,13 +7,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Routes
 func SetRouters(fiberApp *fiber.App, embedScreens embed.FS) {
-	// Routes
+
 	fiberApp.Get("/", controllers.Index)
-	// fiberApp.Post("/print-json", func(c *fiber.Ctx) error {
+	// fiberApp.Post("/v1/print/json", func(c *fiber.Ctx) error {
 	// 	return controllers.PrintJSON(c, embedScreens)
 	// })
 
+	// V1
 	// UI COMPONENTS GROUP ROUTER
 	components := fiberApp.Group("/v1/components")
 	components.Get("/screen-choice", func(c *fiber.Ctx) error {
