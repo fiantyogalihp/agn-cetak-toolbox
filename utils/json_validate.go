@@ -10,11 +10,12 @@ import (
 	"sync"
 )
 
-func processSplitData(splitDataStr []string, arrLocationInt []int, rawJSON map[string]interface{}, currentLocation map[string]interface{}, errChan chan<- error, wg *sync.WaitGroup) {
+func processSplitData(splitDataStr []string, arrLocationInt []int, rawJSON map[string]interface{}, errChan chan<- error, wg *sync.WaitGroup) {
 	defer wg.Done()
 	wg.Add(1)
 
 	field := splitDataStr[len(splitDataStr)-1]
+	currentLocation := make(map[string]interface{})
 
 	for i, v := range splitDataStr {
 		// fmt.Println(i, "ini value", v, len(splitDataStr))
@@ -23,11 +24,10 @@ func processSplitData(splitDataStr []string, arrLocationInt []int, rawJSON map[s
 		if len(arrLocation) < 2 {
 
 			if len(splitDataStr) < 2 {
-				if v != field {
-					errChan <- fmt.Errorf("error: The field '%s' isn't same with '%s'", v, field)
+				if rawJSON[v] == nil {
+					errChan <- fmt.Errorf("error: The field '%s' is not found", v)
 					return
 				}
-
 				fmt.Println("Final result:", v, field)
 				return
 			}
@@ -39,19 +39,18 @@ func processSplitData(splitDataStr []string, arrLocationInt []int, rawJSON map[s
 				continue
 			}
 
-			previousData := splitDataStr[i-1]
-
-			// fmt.Println(i, "previous location:", currentLocation[previousData])
-			// fmt.Println(i, reflect.TypeOf(currentLocation[previousData]))
-			innerData, ok := currentLocation[previousData].(map[string]interface{})
+			previousKey := splitDataStr[i-1]
+			// fmt.Println(i, "previous location:", currentLocation[previousKey])
+			// fmt.Println(i, reflect.TypeOf(currentLocation[previousKey]))
+			innerData, ok := currentLocation[previousKey].(map[string]interface{})
 			if !ok {
 				errChan <- errors.New("error: 'Data' field JSON type is invalid")
 				return
 			}
 
 			if i == len(splitDataStr)-1 {
-				if v != field {
-					errChan <- fmt.Errorf("error: The field '%s' isn't same with '%s'", innerData[v], field)
+				if innerData[v] == nil {
+					errChan <- fmt.Errorf("error: The field '%s' is not found", v)
 					return
 				}
 				fmt.Println("Final result:", v, field)
@@ -81,6 +80,7 @@ func processSplitData(splitDataStr []string, arrLocationInt []int, rawJSON map[s
 			return
 		}
 
+		var dataLocation string
 		switch len(arrLocation) {
 		case 4:
 			var nestedData [][][][]string
@@ -92,27 +92,28 @@ func processSplitData(splitDataStr []string, arrLocationInt []int, rawJSON map[s
 
 			// fmt.Println("ini nested data", nestedData, arrLocationInt)
 			// fmt.Println("ini array", arrLocationInt[0], arrLocationInt[1], arrLocationInt[2], arrLocationInt[3])
-			dataLocation := nestedData[arrLocationInt[0]][arrLocationInt[1]][arrLocationInt[2]][arrLocationInt[3]]
-			if strings.Contains(field, "-C") {
-				fieldNew := strings.ReplaceAll(field, "-C", "")
+			dataLocation = nestedData[arrLocationInt[0]][arrLocationInt[1]][arrLocationInt[2]][arrLocationInt[3]]
+		}
 
-				if !strings.Contains(dataLocation, fieldNew) {
-					errChan <- fmt.Errorf("error: The field '%s' isn't same with '%s'", dataLocation, fieldNew)
-					return
-				}
+		if strings.Contains(field, "-C") {
+			newField := strings.ReplaceAll(field, "-C", "")
 
-				fmt.Println("Final result: ", dataLocation, field)
+			if !strings.Contains(dataLocation, newField) {
+				errChan <- fmt.Errorf("error: The field '%s' isn't same with '%s'", dataLocation, newField)
 				return
 			}
 
-			if dataLocation != field {
-				errChan <- fmt.Errorf("error: The field '%s' isn't same with '%s'", dataLocation, field)
-				return
-			}
-
-			fmt.Println("Final result: ", dataLocation, field)
+			fmt.Println("Final result:", dataLocation, field)
 			return
 		}
+
+		if dataLocation != field {
+			errChan <- fmt.Errorf("error: The field '%s' isn't same with '%s'", dataLocation, field)
+			return
+		}
+
+		fmt.Println("Final result:", dataLocation, field)
+		return
 	}
 }
 
@@ -137,8 +138,8 @@ func convertSliceStr(slice []interface{}, resultStrChan chan<- []string, errChan
 	}
 
 	mu.Lock()
+	defer mu.Unlock()
 	resultStrChan <- splitDataStr
-	mu.Unlock()
 
 }
 
@@ -163,8 +164,8 @@ func convertSliceInt(slice []interface{}, resultIntChan chan<- []int, errChan ch
 	}
 
 	mu.Lock()
+	defer mu.Unlock()
 	resultIntChan <- splitDataInt
-	mu.Unlock()
 
 }
 
@@ -219,8 +220,8 @@ func CheckJSONInput(errChan chan<- error, rawJSON map[string]interface{}, requir
 
 				// Send result to the channel (safely)
 				mu.Lock()
+				defer mu.Unlock()
 				arrLocationChan <- [][]interface{}{splitDataInterface, arrLocationInt}
-				mu.Unlock()
 			}(splitData)
 		}
 
@@ -229,8 +230,6 @@ func CheckJSONInput(errChan chan<- error, rawJSON map[string]interface{}, requir
 
 	wg := sync.WaitGroup{}
 	mu := sync.Mutex{}
-
-	// fmt.Println(rawJSON)
 
 	// Read from the channel
 	for data := range arrLocationChan {
@@ -253,13 +252,12 @@ func CheckJSONInput(errChan chan<- error, rawJSON map[string]interface{}, requir
 
 			// field and currentLocation
 			// field := splitDataStr[len(splitDataStr)-1]
-			currentLocation := make(map[string]interface{})
 
 			// fmt.Println(arrLocationInt)
 
 			mu.Lock()
-			processSplitData(splitDataStr, arrLocationInt, rawJSON, currentLocation, errChan, &wg)
-			mu.Unlock()
+			defer mu.Unlock()
+			processSplitData(splitDataStr, arrLocationInt, rawJSON, errChan, &wg)
 		}(rawJSON)
 
 	}
@@ -267,7 +265,7 @@ func CheckJSONInput(errChan chan<- error, rawJSON map[string]interface{}, requir
 	// Wait for all goroutines to finish
 	go func() {
 		wg.Wait()
-		close(errChan)
+		defer close(errChan)
 	}()
 
 }
