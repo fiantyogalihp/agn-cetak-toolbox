@@ -11,9 +11,6 @@ import (
 func SetRouters(fiberApp *fiber.App, embedScreens embed.FS) {
 
 	fiberApp.Get("/", controllers.Index)
-	// fiberApp.Post("/v1/print/json", func(c *fiber.Ctx) error {
-	// 	return controllers.PrintJSON(c, embedScreens)
-	// })
 
 	// V1
 	// UI COMPONENTS GROUP ROUTER
@@ -29,6 +26,10 @@ func SetRouters(fiberApp *fiber.App, embedScreens embed.FS) {
 	})
 	validate.Post("/destination", func(c *fiber.Ctx) error {
 		return controllers.ValidateDestJSONField(c, embedScreens)
+	})
+
+	fiberApp.Post("/v1/print/json", func(c *fiber.Ctx) error {
+		return controllers.PrintJSON(c, embedScreens)
 	})
 
 }
