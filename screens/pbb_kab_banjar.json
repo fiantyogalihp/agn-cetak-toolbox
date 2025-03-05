@@ -49,6 +49,7 @@
         "pay:receipt:0,12,0,1": "inq:screen:0,5,0,1:-TERBILANG",
         "pay:refnum": "refnum",
         "pay:rp_amount": "rp_amount",
-        "pay:rp_tag": "rp_tag"
+        "pay:rp_tag": "rp_tag",
+        "pay:subscriberid": "inq:subscriberid"
     }
 }
