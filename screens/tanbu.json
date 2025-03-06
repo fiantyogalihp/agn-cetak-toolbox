@@ -65,7 +65,7 @@
     "pay:receipt:0,2,0,1": "inq:subscriberid",
     "pay:receipt:0,2,1,1": "inq:data:0,0:-Y",
     "pay:receipt:0,3,0,1": "inq:info:nama",
-    "pay:receipt:0,3,1,1": "inq:jatuh_tempo",
+    "pay:receipt:0,3,1,1": "inq:info:jatuh_tempo",
     "pay:receipt:0,4,0,1": "inq:info:kecamatan",
     "pay:receipt:0,4,1,1": "inq:info:tgl_lunas",
     "pay:receipt:0,5,0,1": "inq:info:kelurahan",
@@ -75,6 +75,9 @@
     "pay:receipt:0,9,1,1": "inq:screen:0,5,0,1:-N",
     "pay:receipt:0,12,0,1": "inq:screen:0,5,0,1:-TERBILANG",
     "pay:stan": "inq:stan",
-    "pay:subscriberid": "inq:subscriberid"
+    "pay:subscriberid": "inq:subscriberid",
+    "pay:refnum": "inq:refnum",
+    "pay:rp_tag": "inq:rp_tag",
+    "pay:rp_amount": "inq:rp_amount"
   }
 }
