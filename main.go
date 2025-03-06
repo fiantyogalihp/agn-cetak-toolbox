@@ -38,6 +38,7 @@ func main() {
 	// Serve static files (e.g., CSS/JS)
 	app.Static("/static", "./static")
 
+	// SET ROUTES
 	routers.SetRouters(app, jsonFiles)
 
 	// Start the server
