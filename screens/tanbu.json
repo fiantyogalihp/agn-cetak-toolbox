@@ -49,7 +49,7 @@
     "pay:receipt:0,3,1,0:TGL JATUH TEMPO",
     "pay:receipt:0,4,0,0:KECAMATAN",
     "pay:receipt:0,4,1,0:TGL PEMBAYARAN",
-    "pay:receipt:0,5,0,1:KELURAHAN",
+    "pay:receipt:0,5,0,0:KELURAHAN",
     "pay:receipt:0,5,1,0:TAGIHAN",
     "pay:receipt:0,6,0,0:DENDA",
     "pay:receipt:0,9,0,0:AGN REF",
