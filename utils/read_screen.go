@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
+	"runtime"
 )
 
 type ScreenParameter struct {
@@ -32,8 +33,15 @@ func ReadScreen(screenData embed.FS) (result []map[string]interface{}, err error
 			continue
 		}
 
+		screenPath := filepath.Join("screens", file.Name())
+
+		// CHECK OS
+		if runtime.GOOS == "windows" {
+			screenPath = filepath.ToSlash(screenPath)
+		}
+
 		// Read the file's content
-		content, err := screenData.ReadFile(filepath.Join("screens", file.Name()))
+		content, err := screenData.ReadFile(screenPath)
 		if err != nil {
 			err = fmt.Errorf("failed to read file %s: %v", file.Name(), err)
 			return result, err
