@@ -26,6 +26,7 @@ go.sum
 # env file
 .env
 .envrc
+*.tmp.txt
 
 # Dependency directories
 node_modules/
