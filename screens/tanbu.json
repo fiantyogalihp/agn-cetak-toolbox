@@ -62,7 +62,6 @@
     "pay:info": "inq:info",
     "pay:data": "inq:data",
     "pay:datetime": "inq:datetime",
-    "pay:jatuh_tempo": "inq:jatuh_tempo",
     "pay:receipt:0,2,0,1": "inq:subscriberid",
     "pay:receipt:0,2,1,1": "inq:data:0,0:-Y",
     "pay:receipt:0,3,0,1": "inq:info:nama",
