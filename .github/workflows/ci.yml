@@ -78,9 +78,7 @@ jobs:
       - name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token GitHub otomatis
-        run: |
-          git pull
-          npx semantic-release
+        run: npx semantic-release
 
       - name: Clean build directory
         run: rm -rf build
