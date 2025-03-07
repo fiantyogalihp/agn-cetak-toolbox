@@ -47,7 +47,7 @@ jobs:
           mv static/output.css build/static/output.css
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: agn-cetak-toolbox
           path: build/
