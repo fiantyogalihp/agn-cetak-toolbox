@@ -134,7 +134,10 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 		return utils.SendErrorResponse(c, "response-print", err.Error())
 	}
 
+	arrangedArr := screenResult.Arrange
+
 	return c.Render("templates/textarea_result", fiber.Map{
-		"result": string(jsonData),
+		"result":  string(jsonData),
+		"arrange": arrangedArr,
 	})
 }
