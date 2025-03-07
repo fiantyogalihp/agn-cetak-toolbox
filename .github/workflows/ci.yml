@@ -77,7 +77,7 @@ jobs:
 
       - name: Run semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token GitHub otomatis
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} # Token GitHub otomatis
         run: |
           git pull
           npx semantic-release
