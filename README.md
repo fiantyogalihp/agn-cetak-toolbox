@@ -1,8 +1,5 @@
-# dynamic-json-parsing-struct
-cetak bukti bayar depend on angon issue
-
-## TODO
-1. adjustment the screen format
+# agn-cetak-toolbox (Cetak Bukti Bayar)
+is a web platform to replace wrong JSON to right JSON, this common issue on angon support.
 
 ### Format screen: 
 Standard Format:
