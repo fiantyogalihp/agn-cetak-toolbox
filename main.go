@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -22,6 +23,14 @@ var jsonFiles embed.FS
 func main() {
 	// Set up Fiber with the HTML template engine
 	engine := html.NewFileSystem(http.FS(templatesFS), ".html")
+
+	engine.AddFunc("toJson", func(v interface{}) (string, error) {
+		bytes, err := json.Marshal(v)
+		if err != nil {
+			return "", err
+		}
+		return string(bytes), nil
+	})
 
 	app := fiber.New(fiber.Config{
 		Views: engine,
