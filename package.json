@@ -1,14 +1,14 @@
 {
-  "name": "dynamic-json-parsing-struct",
+  "name": "agn-cetak-toolbox",
   "version": "1.0.0",
   "description": "cetak bukti bayar depend on angon issue",
-  "homepage": "https://github.com/fiantyogalihp/dynamic-json-parsing-struct#readme",
+  "homepage": "https://github.com/fiantyogalihp/agn-cetak-toolbox#readme",
   "bugs": {
-    "url": "https://github.com/fiantyogalihp/dynamic-json-parsing-struct/issues"
+    "url": "https://github.com/fiantyogalihp/agn-cetak-toolbox/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fiantyogalihp/dynamic-json-parsing-struct.git"
+    "url": "git+https://github.com/fiantyogalihp/agn-cetak-toolbox.git"
   },
   "license": "ISC",
   "author": "",
