@@ -76,12 +76,12 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install semantic-release
-        run: npm install -g semantic-release @semantic-release/git @semantic-release/github
+      - name: Install dependencies
+        run: npm install
 
       - name: Run semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token GitHub otomatis
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
       - name: Clean build directory

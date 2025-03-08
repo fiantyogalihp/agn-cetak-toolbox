@@ -16,10 +16,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":" npx @tailwindcss/cli -i ./static/input.css -o ./static/output.css --watch"
+    "dev": " npx @tailwindcss/cli -i ./static/input.css -o ./static/output.css --watch"
   },
   "dependencies": {
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.1",
     "@tailwindcss/cli": "^4.0.1",
+    "semantic-release": "^24.2.3",
     "tailwindcss": "^4.0.1"
   }
 }
