@@ -1,0 +1,94 @@
+name: CI Build and Release
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23.5'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Tailwind CSS
+        run: npx tailwindcss -i ./static/input.css -o ./static/output.css --minify
+
+      - name: Build Go application
+        env:
+          CGO_ENABLED: 1
+          GO111MODULE: on
+          GOARCH: amd64
+        run: |
+          mkdir -p build/static
+          go mod tidy
+          go get -u -v
+          GOOS=linux go build -o cetak-toolbox
+          GOOS=windows go build -o cetak-toolbox-wins.exe
+          mv cetak-toolbox build/
+          mv cetak-toolbox-wins.exe build/
+          mv static/output.css build/static/output.css
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: agn-cetak-toolbox
+          path: build/
+          retention-days: 1 # expired in 1 Day
+
+  release:
+    needs: build
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: agn-cetak-toolbox
+          path: build/
+
+      - name: Set up Node.js for semantic-release
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      - name: Clean build directory
+        run: rm -rf build
