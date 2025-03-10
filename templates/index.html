@@ -1,242 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{{.Title}}</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link href="/static/output.css" rel="stylesheet">
-    <script src="https://unpkg.com/htmx.org"></script>
-  </head>
+  <title>{{.Title}}</title>
 
-  <body>
-    <div class="container w-screen max-w-none h-screen bg-[#0F172A] justify-center ">
-      <!-- RADIO BUTTONS -->
-      <div class="flex py-6 justify-center p-2">
-        <div hx-get="/v1/components/screen-choice" hx-trigger="load" hx-swap="outerHTML"></div>
-      </div>
-      <div class="flex w-full gap-6 px-6">
-        <div class="w-1/2 flex flex-col justify-center items-start relative">
-          <label class="block font-medium text-[#38BDF8] mb-2">Contoh response :</label>
-          <div id="response-contoh"></div>
-          <div class="w-full relative rounded-lg bg-[#1E293B] outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600">
-            <textarea rows="10" id="description" class="description textToCopy w-full rounded-lg resize-none px-3 py-1.5 text-base text-white placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="Write a description..."
-            name="contoh-response"
-            hx-post="/v1/validate/json/source"
+  <link href="/static/output.css" rel="stylesheet">
+  <script src="https://unpkg.com/htmx.org"></script>
+</head>
+
+<body>
+  <div class="container w-screen max-w-none h-screen bg-[#0F172A] justify-center ">
+    <!-- RADIO BUTTONS -->
+    <div class="flex py-6 justify-center p-2">
+      <div hx-get="/v1/components/screen-choice" hx-trigger="load" hx-swap="outerHTML"></div>
+    </div>
+    <div class="flex w-full gap-6 px-6">
+      <div class="w-1/2 flex flex-col justify-center items-start relative">
+        <label class="block font-medium text-[#38BDF8] mb-2">Contoh response :</label>
+        <div id="response-contoh"></div>
+        <div
+          class="w-full relative rounded-lg bg-[#1E293B] outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600">
+          <textarea rows="10" id="description"
+            class="description textToCopy w-full rounded-lg resize-none px-3 py-1.5 text-base text-white placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+            placeholder="Write a description..." name="contoh-response" hx-post="/v1/validate/json/source"
             hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
             onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
-            hx-include="[name='screen-choice']:checked"
-            hx-target="#response-contoh"
-            hx-swap="outerHTML"></textarea>
+            hx-include="[name='screen-choice']:checked" hx-target="#response-contoh" hx-swap="outerHTML"></textarea>
 
-            <!-- Alert -->
-            <div class="toast hidden fixed top-5 right-5 opacity-0 transform translate-y-5 transition-all duration-500 ease-in-out rounded-md bg-green-50 p-4 shadow-lg">
-              <div class="flex">
-                <div class="shrink-0">
-                  <svg class="size-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-                <div class="ml-3">
-                  <p class="toast-message text-sm font-medium text-green-800">Text copied successfully!</p>
-                </div>
-                <div class="ml-auto pl-3">
-                  <div class="-mx-1.5 -my-1.5">
-                    <button type="button" class="close-toast inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
-                      <span class="sr-only">Dismiss</span>
-                      <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+          <!-- Alert -->
+          <div
+            class="toast hidden fixed top-5 right-5 opacity-0 transform translate-y-5 transition-all duration-500 ease-in-out rounded-md bg-green-50 p-4 shadow-lg">
+            <div class="flex">
+              <div class="shrink-0">
+                <svg class="size-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                    clip-rule="evenodd" />
+                </svg>
               </div>
-            </div>
-            <!-- End Alert -->
-            <!-- Button -->
-              <!-- Button Copy -->
-              <button type="button"  class="btn-copy absolute bottom-2 right-6 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-                </svg>
-              </button>
-              <!-- Button Fullscreen -->
-              <!-- <button type="button" id="fullscreenButton" class="fullscreenButton absolute bottom-2 right-2 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                </svg>
-              </button> -->
-            <!-- End Button -->
-          </div>
-        </div>
-        <div class="w-1/2 flex flex-col justify-center items-start relative">
-          <label class="block text-sm font-medium text-[#38BDF8] mb-2">Update response :</label>
-          <div id="response-update"></div>
-          <div class="w-full relative rounded-lg bg-[#1E293B] outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600">
-            <textarea rows="10" id="description" class="description textToCopy w-full resize-none px-3 py-1.5 text-base text-white placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="Write a description..."
-            name="update-response"
-            hx-post="/v1/validate/json/destination"
-            hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
-            onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
-            hx-include="[name='screen-choice']:checked"
-            hx-target="#response-update"
-            hx-swap="outerHTML"></textarea>
-
-            <!-- Button -->
-            <button type="button"  class="btn-copy absolute bottom-2 right-6 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-              </svg>
-            </button>
-            <!-- <button type="button" id="fullscreenButton" class="fullscreenButton absolute bottom-2 right-2 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-              </svg>
-            </button> -->
-            <!-- End Button -->
-          </div>
-        </div>
-      </div>
-      <!-- Button Submit, Cancel & Clear -->
-      <div class="flex w-full px-6 mt-4 justify-start">
-        <span class="isolate inline-flex rounded-md shadow-sm">
-          <button type="button"
-                  name="print-response"
-                  hx-post="/v1/print/json"
-                  hx-trigger="click"
-                  hx-include="[name='screen-choice']:checked, [name='contoh-response'], [name='update-response']"
-                  hx-target="#response-print"
-                  hx-swap="innerHTML"
-                  class="relative btn btn-soft mr-2 hover:bg-sky-500">Submit</button>
-          <button type="button" id="clear-btn" class="relative btn btn-soft hover:bg-sky-500">Clear</button>
-        </span>
-      </div>
-      <!-- Textarea large/ textarea bawah -->
-      <div id="response-print"></div>
-      <!-- End Button -->
-        <!-- Pop-up Textarea -->
-        <div id="popup" class="hidden fixed inset-0 outline-gray-300 flex items-center justify-center">
-          <div class="bg-[#1E293B] p-4  rounded-lg w-1/2 h-1/2 relative">
-            <!-- <div id="response-print"></div> -->
-            <textarea id="textarea-popup" class="w-full outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600 text-white h-full p-2 border rounded" placeholder="Write a description..."></textarea>
+              <div class="ml-3">
+                <p class="toast-message text-sm font-medium text-green-800">Text copied successfully!</p>
+              </div>
               <div class="ml-auto pl-3">
-                <div class="absolute left-0 top-0 ">
-                  <button type="button" id="closeButton" class="close-toast inline-flex rounded-md bg-red-50 p-1 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-red-50">
+                <div class="-mx-1.5 -my-1.5">
+                  <button type="button"
+                    class="close-toast inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
                     <span class="sr-only">Dismiss</span>
-                    <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path
+                        d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                     </svg>
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+          <!-- End Alert -->
+          <!-- Button -->
+          <!-- Button Copy -->
+          <button type="button"
+            class="btn-copy absolute bottom-2 right-6 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-5 text-slate-300">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+          </button>
+          <!-- Button Fullscreen -->
+          <!-- <button type="button" id="fullscreenButton" class="fullscreenButton absolute bottom-2 right-2 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                </svg>
+              </button> -->
+          <!-- End Button -->
+        </div>
+      </div>
+      <div class="w-1/2 flex flex-col justify-center items-start relative">
+        <label class="block text-sm font-medium text-[#38BDF8] mb-2">Update response :</label>
+        <div id="response-update"></div>
+        <div
+          class="w-full relative rounded-lg bg-[#1E293B] outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600">
+          <textarea rows="10" id="description"
+            class="description textToCopy w-full resize-none px-3 py-1.5 text-base text-white placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+            placeholder="Write a description..." name="update-response" hx-post="/v1/validate/json/destination"
+            hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+            onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
+            hx-include="[name='screen-choice']:checked" hx-target="#response-update" hx-swap="outerHTML"></textarea>
+
+          <!-- Button -->
+          <button type="button"
+            class="btn-copy absolute bottom-2 right-6 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-5 text-slate-300">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+          </button>
+          <!-- <button type="button" id="fullscreenButton" class="fullscreenButton absolute bottom-2 right-2 cursor-pointer  inline-flex items-center rounded-md px-2 py-2 text-sm font-medium bg-[#1E293B] text-black hover:bg-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-slate-300">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+              </svg>
+            </button> -->
+          <!-- End Button -->
+        </div>
+      </div>
+    </div>
+    <!-- Button Submit, Cancel & Clear -->
+    <div class="flex w-full px-6 mt-4 justify-start">
+      <span class="isolate inline-flex rounded-md shadow-sm">
+        <button type="button" name="print-response" hx-post="/v1/print/json" hx-trigger="click"
+          hx-include="[name='screen-choice']:checked, [name='contoh-response'], [name='update-response']"
+          hx-target="#response-print" hx-swap="innerHTML"
+          class="relative btn btn-soft mr-2 hover:bg-sky-500">Submit</button>
+        <button type="button" id="clear-btn" class="relative btn btn-soft hover:bg-sky-500">Clear</button>
+      </span>
+    </div>
+    <!-- Textarea large/ textarea bawah -->
+    <div id="response-print"></div>
+    <!-- End Button -->
+    <!-- Pop-up Textarea -->
+    <div id="popup" class="hidden fixed inset-0 outline-gray-300 flex items-center justify-center">
+      <div class="bg-[#1E293B] p-4  rounded-lg w-1/2 h-1/2 relative">
+        <!-- <div id="response-print"></div> -->
+        <textarea id="textarea-popup"
+          class="w-full outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-cyan-600 text-white h-full p-2 border rounded"
+          placeholder="Write a description..."></textarea>
+        <div class="ml-auto pl-3">
+          <div class="absolute left-0 top-0 ">
+            <button type="button" id="closeButton"
+              class="close-toast inline-flex rounded-md bg-red-50 p-1 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-red-50">
+              <span class="sr-only">Dismiss</span>
+              <svg class="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+              </svg>
+            </button>
           </div>
         </div>
-       <!-- End Pop-up -->
+      </div>
     </div>
-  </body>
-  <script>
+    <!-- End Pop-up -->
+  </div>
+</body>
+<script>
 
-      // Copy
-      // document.querySelectorAll(".btn-copy").forEach((button, index) => {
-      //   button.addEventListener("click", function () {
-      //     let textAreas = document.querySelectorAll(".textToCopy");
-      //     let textToCopy = textAreas[index]; // Pilih textarea yang sesuai dengan tombol
+  // Copy
+  // document.querySelectorAll(".btn-copy").forEach((button, index) => {
+  //   button.addEventListener("click", function () {
+  //     let textAreas = document.querySelectorAll(".textToCopy");
+  //     let textToCopy = textAreas[index]; // Pilih textarea yang sesuai dengan tombol
 
-      //     textToCopy.select();
-      //     document.execCommand("copy");
-      //     alert("Teks berhasil disalin!");
-      //     });
-      // });
+  //     textToCopy.select();
+  //     document.execCommand("copy");
+  //     alert("Teks berhasil disalin!");
+  //     });
+  // });
 
-      document.addEventListener("htmx:afterSwap", function (event) {
+  document.addEventListener("htmx:afterSwap", function (event) {
 
-        let textarea = document.getElementById("print-response");
+    let textarea = document.getElementById("print-response");
 
-        try {
-          const fieldKeys = JSON.parse(textarea.getAttribute("data-array")); // parse array
+    try {
+      const fieldKeys = JSON.parse(textarea.getAttribute("data-array")); // parse array
 
-          const jsonData = JSON.parse(textarea.textContent); // Parse JSON
+      const jsonData = JSON.parse(textarea.textContent); // Parse JSON
 
-          // Reorder JSON based on field order
-          const reorderedJson = Object.fromEntries(
-            fieldKeys.map((key) => [key, jsonData[key]]).filter(([key, value]) => value !== undefined)
-          );
+      // Reorder JSON based on field order
+      const reorderedJson = Object.fromEntries(
+        fieldKeys.map((key) => [key, jsonData[key]]).filter(([key, value]) => value !== undefined)
+      );
 
-          textarea.value = JSON.stringify(reorderedJson, null, 4); // Beautify with 4 spaces
-        } catch (e) {
-          console.error("Invalid JSON:", e);
-        }
-        });
+      textarea.value = JSON.stringify(reorderedJson, null, 4); // Beautify with 4 spaces
+    } catch (e) {
+      console.error("Invalid JSON:", e);
+    }
+  });
 
-    // Copy with alert
-    document.querySelectorAll(".btn-copy").forEach((button, index) => {
-      button.addEventListener("click", function () {
-        let textAreas = document.querySelectorAll(".textToCopy");
-        let textToCopy = textAreas[index];
+  // Copy with alert
+  document.querySelectorAll(".btn-copy").forEach((button, index) => {
+    button.addEventListener("click", function () {
+      let textAreas = document.querySelectorAll(".textToCopy");
+      let textToCopy = textAreas[index];
 
-        // Copy text
-        textToCopy.select();
-        navigator.clipboard.writeText(textToCopy.value).then(() => {
-          let toast = document.querySelector(".toast");
-          toast.classList.remove("hidden", "opacity-0", "translate-y-5");
-          toast.classList.add("opacity-100", "translate-y-0");
+      // Copy text
+      textToCopy.select();
+      navigator.clipboard.writeText(textToCopy.value).then(() => {
+        let toast = document.querySelector(".toast");
+        toast.classList.remove("hidden", "opacity-0", "translate-y-5");
+        toast.classList.add("opacity-100", "translate-y-0");
 
-          // Hide after 3 seconds
+        // Hide after 3 seconds
+        setTimeout(() => {
+          toast.classList.add("opacity-0", "translate-y-5");
           setTimeout(() => {
-            toast.classList.add("opacity-0", "translate-y-5");
-            setTimeout(() => {
-              toast.classList.add("hidden");
-            }, 500);
-          }, 3000);
-        });
+            toast.classList.add("hidden");
+          }, 500);
+        }, 3000);
       });
     });
+  });
 
-    // Close toast manually
-    document.querySelector(".close-toast").addEventListener("click", function () {
-      let toast = document.querySelector(".toast");
-      toast.classList.add("opacity-0", "translate-y-5");
-      setTimeout(() => {
-        toast.classList.add("hidden");
-      }, 500);
+  // Close toast manually
+  document.querySelector(".close-toast").addEventListener("click", function () {
+    let toast = document.querySelector(".toast");
+    toast.classList.add("opacity-0", "translate-y-5");
+    setTimeout(() => {
+      toast.classList.add("hidden");
+    }, 500);
+  });
+
+  // Clear
+  document.getElementById("clear-btn").addEventListener("click", function () {
+    document.querySelectorAll(".description").forEach(textarea => {
+      textarea.value = "";
     });
+    document.getElementById("response-contoh").innerHTML = "";
+    document.getElementById("response-update").innerHTML = "";
+    let textAreaBawah = document.getElementById("textarea-popup");
 
-    // Clear
-    document.getElementById("clear-btn").addEventListener("click", function() {
-      document.querySelectorAll(".description").forEach(textarea => {
-        textarea.value = "";
-      });
-      document.getElementById("response-contoh").innerHTML = "";
-      document.getElementById("response-update").innerHTML = "";
-      let textAreaBawah = document.getElementById("textarea-popup");
-      
-      if (textAreaBawah) {
-          textAreaBawah.value = ""; // Kosongkan isinya
-          textAreaBawah.parentElement.classList.add("hidden"); // Sembunyikan popup jika diperlukan
-      }
+    if (textAreaBawah) {
+      textAreaBawah.value = ""; // Kosongkan isinya
+      textAreaBawah.parentElement.classList.add("hidden"); // Sembunyikan popup jika diperlukan
+    }
 
-      // Jika ada response yang harus dihapus, lakukan di sini
-      let responseBawah = document.getElementById("response-print");
-      if (responseBawah) {
-          responseBawah.innerHTML = ""; // Bersihkan teks dalam div response-print
-      }
-    });
+    // Jika ada response yang harus dihapus, lakukan di sini
+    let responseBawah = document.getElementById("response-print");
+    if (responseBawah) {
+      responseBawah.innerHTML = ""; // Bersihkan teks dalam div response-print
+    }
+  });
 
-    // Fullscreen
-    // document.querySelectorAll('.fullscreenButton').forEach(function(button) {
-    //   button.addEventListener('click', function() {
-    //     document.getElementById('popup').classList.remove('hidden');
-    //   });
-    // });
+  // Fullscreen
+  // document.querySelectorAll('.fullscreenButton').forEach(function(button) {
+  //   button.addEventListener('click', function() {
+  //     document.getElementById('popup').classList.remove('hidden');
+  //   });
+  // });
 
-    // Close
-    document.getElementById('closeButton').addEventListener('click', function() {
-      document.getElementById('popup').classList.add('hidden');
-    });
+  // Close
+  document.getElementById('closeButton').addEventListener('click', function () {
+    document.getElementById('popup').classList.add('hidden');
+  });
 
-    //Validasi Button submit dan textarea
-    document.addEventListener("DOMContentLoaded", function () {
+  //Validasi Button submit dan textarea
+  document.addEventListener("DOMContentLoaded", function () {
     const contohResponse = document.querySelector("[name='contoh-response']");
     const updateResponse = document.querySelector("[name='update-response']");
     const submitButton = document.querySelector("button[name='print-response']");
@@ -270,5 +280,6 @@
   });
 
 
-  </script>
+</script>
+
 </html>
