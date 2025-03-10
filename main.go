@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fiantyogalihp/dynamic-json-parsing-struct/routers"
+	"github.com/fiantyogalihp/agn-cetak-toolbox/routers"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"

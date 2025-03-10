@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/fiantyogalihp/dynamic-json-parsing-struct/utils"
+	"github.com/fiantyogalihp/agn-cetak-toolbox/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
