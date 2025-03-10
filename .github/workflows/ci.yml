@@ -76,7 +76,10 @@ jobs:
         with:
           name: agn-cetak-toolbox
           path: build/
-
+      - run: |
+          tree .
+          ls -lah
+          ls -lah build/
       - name: Set up Node.js for semantic-release
         uses: actions/setup-node@v4
         with:
