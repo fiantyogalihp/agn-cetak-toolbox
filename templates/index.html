@@ -163,6 +163,12 @@
 
     let textarea = document.getElementById("print-response");
 
+    // CHECK IF DOESN'T HAVE TEXTAREA VALUE
+    if (textarea == null || textarea == undefined) {
+      return
+    }
+
+    // TIDY THE JSON DEPEND ON HTML ATTRIBUTE
     try {
       const fieldKeys = JSON.parse(textarea.getAttribute("data-array")); // parse array
 
