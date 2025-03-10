@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"embed"
-	"encoding/json"
 	"fmt"
 	"log"
 	"sync"
@@ -38,6 +37,7 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 	errChan := make(chan error, 10)
 	mu := sync.Mutex{}
 
+	// PREPARE INPUT DATA
 	rawExampleJSONChan := make(chan map[string]interface{})
 	rawUpdateJSONChan := make(chan map[string]interface{})
 	go func() {
@@ -74,8 +74,6 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 
 	rawUpdateJSON["pay"] = rawExampleJSON["pay"]
 
-	// fmt.Println(screenResult)
-
 	fieldKey := make([]string, 0)
 	fieldValue := make([]string, 0)
 	for k, v := range screenResult.Adjustment {
@@ -83,8 +81,9 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 		fieldValue = append(fieldValue, v)
 	}
 
-	fmt.Println(fieldKey, fieldValue)
+	log.Println(fieldKey, fieldValue)
 
+	// PREPARE SOURCE DATA
 	adjustValResult := make(chan map[string]interface{})
 	utils.PrepareJSONInput(errPrepareChan, rawUpdateJSON, fieldValue, adjustValResult)
 
@@ -107,6 +106,7 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 		return utils.SendErrorResponse(c, "response-print", err.Error())
 	}
 
+	// REPLACE RESULT DATA
 	resultJSON := make(map[string]interface{})
 	utils.PrintJSONInput(errPrintChan, rawUpdateJSON, fieldKey, adjustValMap, &resultJSON)
 
@@ -114,30 +114,17 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 		return utils.SendErrorResponse(c, "response-print", err.Error())
 	}
 
-	fmt.Println(&resultJSON)
-
-	jsonInqData, err := json.Marshal(resultJSON["inq"])
+	// MARSHAL TO FIRST FORMAT
+	jsonResultData, err := utils.MarshalFinalResult(resultJSON)
 	if err != nil {
 		return utils.SendErrorResponse(c, "response-print", err.Error())
 	}
 
-	jsonPayData, err := json.Marshal(resultJSON["pay"])
-	if err != nil {
-		return utils.SendErrorResponse(c, "response-print", err.Error())
-	}
-
-	resultJSON["inq"] = string(jsonInqData)
-	resultJSON["pay"] = string(jsonPayData)
-
-	jsonData, err := json.Marshal(resultJSON)
-	if err != nil {
-		return utils.SendErrorResponse(c, "response-print", err.Error())
-	}
-
+	// ADD OPTION DATA
 	arrangedArr := screenResult.Arrange
 
 	return c.Render("templates/textarea_result", fiber.Map{
-		"result":  string(jsonData),
+		"result":  jsonResultData,
 		"arrange": arrangedArr,
 	})
 }
