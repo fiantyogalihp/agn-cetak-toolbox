@@ -3,7 +3,7 @@ package routers
 import (
 	"embed"
 
-	"github.com/fiantyogalihp/dynamic-json-parsing-struct/controllers"
+	"github.com/fiantyogalihp/agn-cetak-toolbox/controllers"
 	"github.com/gofiber/fiber/v2"
 )
 
