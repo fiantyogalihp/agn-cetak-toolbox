@@ -79,25 +79,12 @@ func UnmarshalSliceToReplace(arrIndexInt int, adjustValResult map[string]interfa
 			return
 		}
 
-		// fmt.Println("nested data", nestedData)
-
-		// fmt.Println("ini nested data", nestedData, arrLocationInt)
-		// fmt.Println("ini array", arrLocationInt[0], arrLocationInt[1], arrLocationInt[2], arrLocationInt[3])
 		dataLocation = nestedData[arrLocationInt[0]][arrLocationInt[1]][arrLocationInt[2]][arrLocationInt[3]]
 
 		if val, ok := adjustValResult[fmt.Sprint(arrIndexInt)]; ok {
-			// newNestedData := make([][][][]string, len(nestedData))
-			// copy(newNestedData, nestedData[:])
-
-			// newVal := haveOptions(val, field, dataLocation, errChan)
-
-			// fmt.Println("new nested data", newNestedData)
-
 			nestedData[arrLocationInt[0]][arrLocationInt[1]][arrLocationInt[2]][arrLocationInt[3]] = fmt.Sprint(val)
 
 			currentLocation[key] = nestedData
-			// *resultField = append(*resultField, key)
-			// inputList.PushBack(map[string]interface{}{key: newNestedData})
 		}
 
 	case 2:
@@ -112,16 +99,9 @@ func UnmarshalSliceToReplace(arrIndexInt int, adjustValResult map[string]interfa
 		dataLocation = nestedData[arrLocationInt[0]][arrLocationInt[1]]
 
 		if val, ok := adjustValResult[fmt.Sprint(arrIndexInt)]; ok {
-			// newNestedData := make([][]string, len(nestedData))
-			// copy(newNestedData, nestedData[:])
-
-			// newVal := haveOptions(val, field, dataLocation, errChan)
-
 			nestedData[arrLocationInt[0]][arrLocationInt[1]] = fmt.Sprint(val)
 
 			currentLocation[key] = nestedData
-			// *resultField = append(*resultField, key)
-			// inputList.PushBack(map[string]interface{}{key: newNestedData})
 		}
 
 	case 3:
@@ -136,16 +116,9 @@ func UnmarshalSliceToReplace(arrIndexInt int, adjustValResult map[string]interfa
 		dataLocation = nestedData[arrLocationInt[0]][arrLocationInt[1]][arrLocationInt[2]]
 
 		if val, ok := adjustValResult[fmt.Sprint(arrIndexInt)]; ok {
-			// newNestedData := make([][][]string, len(nestedData))
-			// copy(newNestedData, nestedData[:])
-
-			// newVal := haveOptions(val, field, dataLocation, errChan)
-
 			nestedData[arrLocationInt[0]][arrLocationInt[1]][arrLocationInt[2]] = fmt.Sprint(val)
 
 			currentLocation[key] = nestedData
-			// *resultField = append(*resultField, key)
-			// inputList.PushBack(map[string]interface{}{key: newNestedData})
 		}
 	}
 
@@ -162,8 +135,6 @@ func UnmarshalSlice(field string, arrLocation []string, arrLocationInt []int, da
 			return
 		}
 
-		// fmt.Println("ini nested data", nestedData, arrLocationInt)
-		// fmt.Println("ini array", arrLocationInt[0], arrLocationInt[1], arrLocationInt[2], arrLocationInt[3])
 		dataLocation = nestedData[arrLocationInt[0]][arrLocationInt[1]][arrLocationInt[2]][arrLocationInt[3]]
 
 	case 2:
@@ -200,9 +171,7 @@ func prepareProcessData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 	field := splitDataStr[len(splitDataStr)-1]
 	currentLocation := make(map[string]interface{})
 
-	// fmt.Println("ini value", splitDataStr, len(splitDataStr))
 	for i, v := range splitDataStr {
-		// fmt.Println(i, "ini value", v, len(splitDataStr))
 
 		arrLocation := strings.Split(v, ",")
 		if len(arrLocation) < 2 {
@@ -213,28 +182,21 @@ func prepareProcessData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 					return
 				}
 
-				// fmt.Println("masuk sini", arrIndexInt, rawJSON[v])
 				adjustValResult <- map[string]interface{}{fmt.Sprint(arrIndexInt): rawJSON[v]}
 				return
 			}
 
-			// fmt.Println(i, "ini json nya:", rawJSON[v])
-			// fmt.Println(i, "ini value nya:", v)
 			if currentLocation[v] == nil && len(currentLocation) < 1 {
 				currentLocation[v] = rawJSON[v]
 				continue
 			}
 
 			previousKey := splitDataStr[i-1]
-			// fmt.Println(i, "previous location:", currentLocation[previousKey])
-			// fmt.Println(i, reflect.TypeOf(currentLocation[previousKey]))
 			innerData, ok := currentLocation[previousKey].(map[string]interface{})
 			if !ok {
 				errChan <- errors.New("error: 'Data' field JSON type is invalid")
 				return
 			}
-
-			// fmt.Println("ini inner data", innerData[v])
 
 			if i == len(splitDataStr)-1 {
 				if innerData[v] == nil {
@@ -252,10 +214,6 @@ func prepareProcessData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 
 		// Marshal the current location map
 		previousData := splitDataStr[i-1]
-
-		// fmt.Println("current data", currentLocation)
-		// fmt.Println("previous data", currentLocation[previousData])
-
 		dataStr, err := json.Marshal(currentLocation[previousData])
 		if err != nil {
 			errChan <- err
@@ -264,17 +222,13 @@ func prepareProcessData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 
 		// RETURN ERROR IF SLICE NULL
 		if len(arrLocationInt) < 1 {
-			fmt.Println("datastr", string(dataStr))
+			log.Println("data str", string(dataStr))
 			errChan <- errors.New("error: slice is empty")
 			return
 		}
 
 		dataLocation := UnmarshalSlice(field, arrLocation, arrLocationInt, dataStr, errChan)
 
-		// if dataLocation != field {
-		// 	errChan <- fmt.Errorf("error: The field '%s' isn't same with '%s'", dataLocation, field)
-		// 	return
-		// }
 		adjustValResult <- map[string]interface{}{fmt.Sprint(arrIndexInt): dataLocation}
 		return
 	}
@@ -289,7 +243,6 @@ func processReplaceData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 	resultField := make([]string, 0)
 
 	for i, v := range splitDataStr {
-		// fmt.Println(i, "ini value", v, len(splitDataStr))
 
 		arrLocation := strings.Split(v, ",")
 		if len(arrLocation) < 2 {
@@ -305,32 +258,21 @@ func processReplaceData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 				}
 
 				resultField = append(resultField, v)
-				// fmt.Println("________________________________\n", v, resultField)
-				// fmt.Println("masuk sini", arrIndexInt, rawJSON[v])
-				// adjustKeyResult <- map[string]string{fmt.Sprint(arrIndexInt): fmt.Sprint(rawJSON[v])}
 				break
 			}
 
-			// fmt.Println(i, "ini json nya:", rawJSON[v])
-			// fmt.Println(i, "ini value nya:", v)
 			if currentLocation[v] == nil && len(currentLocation) < 1 {
 				currentLocation[v] = (*rawJSON)[v]
 				resultField = append(resultField, v)
-				// fmt.Println("________________________________\n", v, resultField)
-				// resultList.PushBack(rawJSON[v])
 				continue
 			}
 
 			previousKey := splitDataStr[i-1]
-			// fmt.Println(i, "previous location:", currentLocation[previousKey])
-			// fmt.Println(i, reflect.TypeOf(currentLocation[previousKey]))
 			currentData, ok := currentLocation[previousKey].(map[string]interface{})
 			if !ok {
 				errChan <- errors.New("error: 'Data' field JSON type is invalid")
 				return
 			}
-
-			// fmt.Println("ini inner data", currentData[v])
 
 			if i == len(splitDataStr)-1 {
 				if currentData[v] == nil {
@@ -343,22 +285,16 @@ func processReplaceData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 				}
 
 				resultField = append(resultField, v)
-				// fmt.Println("________________________________\n", v, resultField)
-				// adjustKeyResult <- map[string]string{fmt.Sprint(arrIndexInt): fmt.Sprint(currentData[v])}
 				break
 			}
 
 			currentLocation[v] = currentData[v]
 			resultField = append(resultField, v)
-			// fmt.Println("________________________________\n", v, resultField)
-			// resultList.PushBack(currentData[v])
 			continue
 		}
 
 		// Marshal the current location map
 		previousKey := splitDataStr[i-1]
-		// fmt.Println("current location", currentLocation)
-		// fmt.Println("current location data str", currentLocation[previousKey], previousKey)
 		dataStr, err := json.Marshal(currentLocation[previousKey])
 		if err != nil {
 			errChan <- err
@@ -373,13 +309,8 @@ func processReplaceData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 
 		UnmarshalSliceToReplace(arrIndexInt, adjustValResult, arrLocation, arrLocationInt, dataStr, previousKey, currentLocation, errChan)
 
-		// fmt.Println("________________________________\n", previousKey, dataLocation)
-		// currentLocation[previousKey] = dataLocation
-		// adjustKeyResult <- map[string]string{fmt.Sprint(arrIndexInt): dataLocation}
 		break
 	}
-
-	fmt.Println(resultField)
 
 	// [ "pay", "receipt" ]
 	finalLevelKey := resultField[0]
@@ -387,8 +318,6 @@ func processReplaceData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 	wg.Add(len(resultField))
 	for i := (len(resultField) - 1); i >= 0; i-- {
 		key := resultField[i]
-
-		// fmt.Println("current data 0", key, currentData)
 
 		currentData[key] = currentLocation[key] // * Assign the value from old map to new map
 
@@ -406,10 +335,6 @@ func processReplaceData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 				errChan <- fmt.Errorf("error: hash field '%s' is invalid", key)
 				return
 			}
-
-			// fmt.Println(modifiedInnerData)
-			// fmt.Println(key, prevIdx, resultField)
-
 			// * assign new value from previous new JSON map to "modifiedInnerData"
 			prevIdx := i + 1
 			prevKey := resultField[prevIdx]
@@ -419,36 +344,8 @@ func processReplaceData(splitDataStr []string, arrLocationInt []int, arrIndexInt
 		}
 
 		wg.Done()
-
-		// if nextIdx := i - 1; nextIdx >= 0 {
-		// 	currentData[key] = currentLocation[key]
-
-		// 	fmt.Println("current data 1", currentData[key], currentLocation[key])
-
-		// 	innerData, ok := currentData[key].(map[string]interface{})
-		// 	if !ok {
-		// 		errChan <- errors.New("error: 'Data' field JSON type is invalid")
-		// 		return
-		// 	}
-
-		// 	innerData[key] = currentLocation[key]
-
-		// 	// currentData[key] = currentLocation[key] // * (*new) receipt = newValue
-		// 	continue
-		// }
-
-		// prevIdx := i + 1
-		// fmt.Println(key, prevIdx, resultField)
-		// prevKey := resultField[prevIdx]
-
-		// fmt.Println("________________________________", currentData[prevKey])
-
-		// currentData[key] = currentData[prevKey] // * (*new) pay = (*new) receipt
 	}
 
-	// fmt.Println("current data", map[string]interface{}{finalLevelKey: currentData[finalLevelKey]})
-	// fmt.Println("sended", finalLevelKey)
-	// resultMapChan <- map[string]interface{}{finalLevelKey: currentData[finalLevelKey]}
 	(*rawJSON)[finalLevelKey] = currentData[finalLevelKey]
 }
 
@@ -513,7 +410,6 @@ func PrepareJSONInput(errChan chan<- error, rawJSON map[string]interface{}, fiel
 	mu := sync.Mutex{}
 
 	for data := range arrLocationValChan {
-		// fmt.Println("data", data)
 
 		splitDataInterface := data[0]
 		arrLocationInterface := data[1]
@@ -535,7 +431,6 @@ func PrepareJSONInput(errChan chan<- error, rawJSON map[string]interface{}, fiel
 			arrLocationInt := <-arrLocationIntChan
 			arrIndexInt := <-arrIndexIntChan
 
-			// fmt.Println(splitDataStr, arrLocationInt, arrIndexInt)
 			mu.Lock()
 			defer mu.Unlock()
 			prepareProcessData(splitDataStr, arrLocationInt, arrIndexInt[0], rawJSON, adjustValResult, errChan, &wg)
@@ -559,11 +454,9 @@ func PrintJSONInput(errChan chan<- error, rawJSON map[string]interface{}, fieldK
 
 	wg := sync.WaitGroup{}
 	mu := &sync.Mutex{}
-	// cond := sync.NewCond(mu)
 
 	resultMapChan := make(chan map[string]interface{})
 	newRawJSON := rawJSON
-	// var finalLevelKey string
 
 	// Read from the channel
 	for data := range arrLocationKeyChan {
@@ -580,8 +473,6 @@ func PrintJSONInput(errChan chan<- error, rawJSON map[string]interface{}, fieldK
 		go convertSliceInt(arrLocationInterface, arrLocationIntChan, errChan, &wg, mu)
 		go convertSliceInt(arrIndexInterface, arrIndexIntChan, errChan, &wg, mu)
 
-		// time.Sleep(10 * time.Millisecond)
-
 		wg.Add(1)
 		go func(adjustValResult map[string]interface{}, splitDataStrChan <-chan []string, arrLocationIntChan, arrIndexIntChan <-chan []int, resultMapChan chan<- map[string]interface{}) {
 			defer wg.Done()
@@ -592,50 +483,43 @@ func PrintJSONInput(errChan chan<- error, rawJSON map[string]interface{}, fieldK
 
 			mu.Lock()
 			defer mu.Unlock()
-			// cond.L.Lock()
-			// defer cond.L.Unlock()
-			// finalLevelKey = splitDataStr[0]
 
 			processReplaceData(splitDataStr, arrLocationInt, arrIndexInt[0], &newRawJSON, adjustValResult, errChan, &wg)
 
-			// cond.Wait()
-			// newRawJSON[finalLevelKey] = <-resultMapChan
 		}(adjustValResult, splitDataStrChan, arrLocationIntChan, arrIndexIntChan, resultMapChan)
 
 	}
 
-	// wg.Add(1)
-	// go func() {
-	// 	defer close(resultMapChan)
-	// 	defer wg.Done()
-
-	// 	}()
-	// for newData := range resultMapChan {
-
-	// 	wg.Add(1)
-	// 	go func() {
-	// 		defer wg.Done()
-	// 		cond.L.Lock()
-	// 		newRawJSON[finalLevelKey] = newData[finalLevelKey]
-	// 		fmt.Println("success")
-	// 		cond.L.Unlock()
-	// 		cond.Signal()
-	// 	}()
-
-	// 	// fmt.Println("________________________________\n", newRawJSON[finalLevelKey])
-	// 	// fmt.Println("________________________________\n", newData[finalLevelKey])
-	// 	// fmt.Println("________________________________\n", resultJSON)
-	// }
-
-	// close(resultMapChan)
 	// Wait for all goroutines to finish
 	// go func() {
 	wg.Wait()
 	// }()
 
-	fmt.Println("new raw json", newRawJSON)
+	log.Println("new raw json", newRawJSON)
 
 	*resultJSON = newRawJSON
-	// resultJSON <- newRawJSON
-	// close(resultJSON)
+}
+
+func MarshalFinalResult(resultJSON map[string]interface{}) (result string, err error) {
+
+	jsonInqData, err := json.Marshal(resultJSON["inq"])
+	if err != nil {
+		return
+	}
+
+	jsonPayData, err := json.Marshal(resultJSON["pay"])
+	if err != nil {
+		return
+	}
+
+	resultJSON["inq"] = string(jsonInqData)
+	resultJSON["pay"] = string(jsonPayData)
+
+	jsonResultData, err := json.Marshal(resultJSON)
+	if err != nil {
+		return
+	}
+
+	result = string(jsonResultData)
+	return
 }
