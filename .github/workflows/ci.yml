@@ -76,10 +76,10 @@ jobs:
         with:
           name: agn-cetak-toolbox
           path: build/
-      - run: |
-          tree .
-          ls -lah
-          ls -lah build/
+
+      - name: Zip the artifact
+        run: zip -r build/agn-cetak-toolbox.zip build
+
       - name: Set up Node.js for semantic-release
         uses: actions/setup-node@v4
         with:
