@@ -9,7 +9,7 @@ const config = {
     // }],
     ["@semantic-release/github", {
       "assets": [
-        { "path": "build/**", "label": "Build Artifacts AGN Cetak Toolbox" },
+        { "path": "build/agn-cetak-toolbox.zip" },
       ]
     }],
   ]
