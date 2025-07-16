@@ -10,3 +10,7 @@ func Index(c *fiber.Ctx) error {
 		"Title": "HTMX + Fiber Quickstart",
 	})
 }
+func Screen(c *fiber.Ctx) error {
+	// Return the HTML response
+	return c.Render("templates/screen", nil)
+}

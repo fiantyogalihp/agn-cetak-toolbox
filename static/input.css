@@ -1,5 +1,8 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: all;
-  include: button, input, select;
+@import "tailwindcss-animated";
+
+@theme {
+  --color-primary: #111618;
+  --color-ijo: #283539;
+  --color-over: #0E252C;
 }

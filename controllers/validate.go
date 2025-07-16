@@ -10,22 +10,22 @@ import (
 
 func ValidateSrcJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
 
-	screenFilename := c.FormValue("screen-choice")
-	jsonInput := c.FormValue("contoh-response")
+	screenFilename := c.FormValue(RADIO_BUTTON)
+	jsonInput := c.FormValue(CONTOH_TEXTAREA)
 
 	// VALIDATE
 	if screenFilename == "" {
-		return utils.SendErrorResponse(c, "response-contoh", "Please select your screen!")
+		return utils.SendErrorResponse(c, ALERT_CONTOH_TEXTAREA, "Please select your screen!")
 	}
 
 	if jsonInput == "" {
-		return utils.SendErrorResponse(c, "response-contoh", "Please input your JSON Field!")
+		return utils.SendErrorResponse(c, ALERT_CONTOH_TEXTAREA, "Please input your JSON Field!")
 	}
 
 	// READ SCREEN
 	screenResult, err := utils.ReadExplicitScreen(embedScreen, screenFilename+".json")
 	if err != nil {
-		return utils.SendErrorResponse(c, "response-contoh", err.Error())
+		return utils.SendErrorResponse(c, ALERT_CONTOH_TEXTAREA, err.Error())
 	}
 
 	// GET DATA
@@ -34,14 +34,14 @@ func ValidateSrcJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
 	// GET UNMARSHALED RAW JSON
 	rawJSON, err := utils.UnmarshalDynamicExampleJson(jsonInput)
 	if err != nil {
-		return utils.SendErrorResponse(c, "response-contoh", err.Error())
+		return utils.SendErrorResponse(c, ALERT_CONTOH_TEXTAREA, err.Error())
 	}
 
 	// CHECK EXIST FIELD
 	for _, field := range screenResult.Arrange {
 		if _, ok := rawJSON[field]; !ok {
 			err = fmt.Errorf("invalid field, '%s' is missing", field)
-			return utils.SendErrorResponse(c, "response-contoh", err.Error())
+			return utils.SendErrorResponse(c, ALERT_CONTOH_TEXTAREA, err.Error())
 		}
 	}
 
@@ -49,28 +49,28 @@ func ValidateSrcJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
 
 	// ERROR HANDLE
 	for err := range errChan {
-		return utils.SendErrorResponse(c, "response-contoh", err.Error())
+		return utils.SendErrorResponse(c, ALERT_CONTOH_TEXTAREA, err.Error())
 	}
 
-	return utils.SendSuccessResponse(c, "response-contoh", "Your JSON Field is Valid!")
+	return utils.SendSuccessResponse(c, ALERT_CONTOH_TEXTAREA, "Your JSON Field is Valid!")
 }
 
 func ValidateDestJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
-	screenFilename := c.FormValue("screen-choice")
-	jsonInput := c.FormValue("update-response")
+	screenFilename := c.FormValue(RADIO_BUTTON)
+	jsonInput := c.FormValue(UPATE_TEXTAREA)
 
 	// VALIDATE
 	if screenFilename == "" {
-		return utils.SendErrorResponse(c, "response-update", "Please select your screen!")
+		return utils.SendErrorResponse(c, ALERT_UPDATE_TEXTAREA, "Please select your screen!")
 	}
 	if jsonInput == "" {
-		return utils.SendErrorResponse(c, "response-update", "Please input your JSON Field!")
+		return utils.SendErrorResponse(c, ALERT_UPDATE_TEXTAREA, "Please input your JSON Field!")
 	}
 
 	// READ SCREEN
 	screenResult, err := utils.ReadExplicitScreen(embedScreen, screenFilename+".json")
 	if err != nil {
-		return utils.SendErrorResponse(c, "response-update", err.Error())
+		return utils.SendErrorResponse(c, ALERT_UPDATE_TEXTAREA, err.Error())
 	}
 
 	// GET DATA
@@ -79,7 +79,7 @@ func ValidateDestJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
 	// GET UNMARSHALED RAW JSON
 	rawJSON, err := utils.UnmarshalDynamicExampleJson(jsonInput)
 	if err != nil {
-		return utils.SendErrorResponse(c, "response-update", err.Error())
+		return utils.SendErrorResponse(c, ALERT_UPDATE_TEXTAREA, err.Error())
 	}
 
 	checkFunc := func(data string) bool {
@@ -90,7 +90,7 @@ func ValidateDestJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
 	for key := range rawJSON {
 		if checkFunc(key) {
 			err = fmt.Errorf("cannot process with '%s' json field", key)
-			return utils.SendErrorResponse(c, "response-update", err.Error())
+			return utils.SendErrorResponse(c, ALERT_UPDATE_TEXTAREA, err.Error())
 		}
 	}
 
@@ -103,7 +103,7 @@ func ValidateDestJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
 
 		if _, ok := rawJSON[field]; !ok {
 			err = fmt.Errorf("invalid field, '%s' is missing", field)
-			return utils.SendErrorResponse(c, "response-update", err.Error())
+			return utils.SendErrorResponse(c, ALERT_UPDATE_TEXTAREA, err.Error())
 		}
 	}
 
@@ -111,8 +111,8 @@ func ValidateDestJSONField(c *fiber.Ctx, embedScreen embed.FS) error {
 
 	// ERROR HANDLE
 	for err := range errChan {
-		return utils.SendErrorResponse(c, "response-update", err.Error())
+		return utils.SendErrorResponse(c, ALERT_UPDATE_TEXTAREA, err.Error())
 	}
 
-	return utils.SendSuccessResponse(c, "response-update", "Your JSON Field is Valid!")
+	return utils.SendSuccessResponse(c, ALERT_UPDATE_TEXTAREA, "Your JSON Field is Valid!")
 }
