@@ -12,23 +12,23 @@ import (
 
 func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 
-	screenFilename := c.FormValue("screen-choice")
-	exampleJSONInput := c.FormValue("contoh-response")
-	updateJSONInput := c.FormValue("update-response")
+	screenFilename := c.FormValue(RADIO_BUTTON)
+	exampleJSONInput := c.FormValue(CONTOH_TEXTAREA)
+	updateJSONInput := c.FormValue(UPATE_TEXTAREA)
 
 	// VALIDATE
 	if screenFilename == "" {
-		return utils.SendErrorResponse(c, "print-response", "Please select your screen!")
+		return utils.SendErrorResponse(c, RESULT_TEXTAREA, "Please select your screen!")
 	}
 
 	if exampleJSONInput == "" || updateJSONInput == "" {
-		return utils.SendErrorResponse(c, "print-response", "Please input your JSON Field!")
+		return utils.SendErrorResponse(c, RESULT_TEXTAREA, "Please input your JSON Field!")
 	}
 
 	// READ SCREEN
 	screenResult, err := utils.ReadExplicitScreen(embedScreen, screenFilename+".json")
 	if err != nil {
-		return utils.SendErrorResponse(c, "print-response", err.Error())
+		return utils.SendErrorResponse(c, RESULT_TEXTAREA, err.Error())
 	}
 
 	// GET DATA
@@ -69,7 +69,7 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 	rawUpdateJSON := <-rawUpdateJSONChan
 
 	for err := range errChan {
-		return utils.SendErrorResponse(c, "response-print", err.Error())
+		return utils.SendErrorResponse(c, RESULT_BUTTON, err.Error())
 	}
 
 	rawUpdateJSON["pay"] = rawExampleJSON["pay"]
@@ -103,7 +103,7 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 	}
 
 	for err := range errPrepareChan {
-		return utils.SendErrorResponse(c, "response-print", err.Error())
+		return utils.SendErrorResponse(c, RESULT_BUTTON, err.Error())
 	}
 
 	// REPLACE RESULT DATA
@@ -111,13 +111,13 @@ func PrintJSON(c *fiber.Ctx, embedScreen embed.FS) error {
 	utils.PrintJSONInput(errPrintChan, rawUpdateJSON, fieldKey, adjustValMap, &resultJSON)
 
 	for err := range errPrintChan {
-		return utils.SendErrorResponse(c, "response-print", err.Error())
+		return utils.SendErrorResponse(c, RESULT_BUTTON, err.Error())
 	}
 
 	// MARSHAL TO FIRST FORMAT
 	jsonResultData, err := utils.MarshalFinalResult(resultJSON)
 	if err != nil {
-		return utils.SendErrorResponse(c, "response-print", err.Error())
+		return utils.SendErrorResponse(c, RESULT_BUTTON, err.Error())
 	}
 
 	// ADD OPTION DATA

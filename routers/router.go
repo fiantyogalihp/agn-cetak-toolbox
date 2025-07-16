@@ -11,6 +11,7 @@ import (
 func SetRouters(fiberApp *fiber.App, embedScreens embed.FS) {
 
 	fiberApp.Get("/", controllers.Index)
+	fiberApp.Get("/screen", controllers.Screen)
 
 	// V1
 	// UI COMPONENTS GROUP ROUTER
