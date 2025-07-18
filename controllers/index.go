@@ -5,12 +5,16 @@ import (
 )
 
 func Index(c *fiber.Ctx) error {
-	// Return the HTML response
+	title := "AGN Cetak Toolbox"
+
+	visited := c.Query("visited")
+	if visited != "" && visited == "true" {
+		return c.Render("templates/screen", fiber.Map{
+			"Title": title,
+		})
+	}
+
 	return c.Render("templates/index", fiber.Map{
-		"Title": "HTMX + Fiber Quickstart",
+		"Title": title,
 	})
-}
-func Screen(c *fiber.Ctx) error {
-	// Return the HTML response
-	return c.Render("templates/screen", nil)
 }
