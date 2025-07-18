@@ -1,12 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cetak</title>
-  <link href="./static/output.css" rel="stylesheet" />
+  <title>{{.Title}}</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+  <link href="/static/output.css" rel="stylesheet" />
   <script src="https://unpkg.com/htmx.org"></script>
+
+  <script>
+    // Jika belum lihat screen.html, redirect dulu
+    if (!localStorage.getItem("hasVisitedScreen")) {
+      localStorage.setItem("hasVisitedScreen", "true");
+      // htmx.ajax('GET', '/screen', {});
+      window.location.href = '/?visited=true';
+    }
+  </script>
+
 </head>
 
 <body class="bg-primary">
@@ -25,7 +36,8 @@
   <div class="mt-6">
     <div class="mx-auto px-6 lg:px-8">
       <!-- Alert -->
-      <div class="toast fixed top-4 right-4 w-80 rounded-md bg-green-50 p-4 shadow-lg transform transition duration-500 ease-in-out translate-x-full opacity-0">
+      <div
+        class="toast fixed top-4 right-4 w-80 rounded-md bg-green-50 p-4 shadow-lg transform transition duration-500 ease-in-out translate-x-full opacity-0">
         <div class="flex">
           <div class="shrink-0">
             <svg class="size-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
@@ -67,19 +79,19 @@
                   Contoh Response :
                 </label>
                 <div id="response-contoh"></div>
-                <button type="button" class="btn-paste" data-target="contohTextarea">
+                <button type="button" class="btn-paste" data-target="contohTextarea" hx-post="/v1/validate/json/source"
+                  hx-trigger="do-paste-submit" hx-include="[name='screen-choice']:checked, [name='contoh-response']"
+                  hx-target="#response-contoh" hx-swap="outerHTML">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="size-6 text-white cursor-pointer">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-                </svg>
+                    stroke="currentColor" class="size-6 text-white cursor-pointer">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                  </svg>
                 </button>
               </div>
               <div class="mt-2">
-                <textarea rows="10" id="contohTextarea" placeholder="Masukkan konten di sini..."
-                  name="contoh-response"
-                  hx-post="/v1/validate/json/source"
-                  hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+                <textarea rows="10" id="contohTextarea" placeholder="Masukkan konten di sini..." name="contoh-response"
+                  hx-post="/v1/validate/json/source" hx-trigger="keyup[key=='Enter']"
                   onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
                   hx-include="[name='screen-choice']:checked" hx-target="#response-contoh" hx-swap="outerHTML"
                   class="description block w-full animate-fade-right rounded-md bg-ijo border border-gray-600 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-600 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-emerald-800 sm:text-sm/6"></textarea>
@@ -92,40 +104,39 @@
                   Update Response :
                 </label>
                 <div id="response-update"></div>
-                <button type="button" class="btn-paste" data-target="updateTextarea">
+                <button type="button" class="btn-paste" data-target="updateTextarea"
+                  hx-post="/v1/validate/json/destination" hx-trigger="do-paste-submit"
+                  hx-include="[name='screen-choice']:checked, [name='update-response']" hx-target="#response-update"
+                  hx-swap="outerHTML">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="size-6 text-white cursor-pointer">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
-                </svg>
+                    stroke="currentColor" class="size-6 text-white cursor-pointer">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                  </svg>
                 </button>
               </div>
               <div class="mt-2">
-                <textarea rows="10" id="updateTextarea" placeholder="Masukkan konten di sini..."
-                name="update-response" hx-post="/v1/validate/json/destination"
-                hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
-                onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
-                hx-include="[name='screen-choice']:checked" hx-target="#response-update" hx-swap="outerHTML"
-                class="block w-full animate-fade-right rounded-md bg-ijo border border-gray-600 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-600 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-emerald-800 sm:text-sm/6"></textarea>
+                <textarea rows="10" id="updateTextarea" placeholder="Masukkan konten di sini..." name="update-response"
+                  hx-post="/v1/validate/json/destination" hx-trigger="keyup[key=='Enter']"
+                  onkeydown="if (event.key === 'Enter') { event.preventDefault(); }"
+                  hx-include="[name='screen-choice']:checked" hx-target="#response-update" hx-swap="outerHTML"
+                  class="block w-full animate-fade-right rounded-md bg-ijo border border-gray-600 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-600 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-emerald-800 sm:text-sm/6"></textarea>
               </div>
             </div>
           </div>
 
-            <!-- Spacer untuk menyejajarkan dengan radio button -->
+          <!-- Spacer untuk menyejajarkan dengan radio button -->
           <div class="mt-6">
             <div class="space-y-6 sm:flex sm:items-center sm:space-y-0 sm:space-x-10" style="height: 24px">
-            <!-- Invisible spacer untuk menyejajarkan dengan radio button -->
-          </div>
+              <!-- Invisible spacer untuk menyejajarkan dengan radio button -->
+            </div>
 
-          <!-- Result -->
-          <div class="w-full" id="response-print"></div>
-        
+            <!-- Result -->
+            <div class="w-full" id="response-print"></div>
           </div>
         </div>
         <div class="mt-4">
-          <button type="button"
-            name="print-response"
-            hx-post="/v1/print/json" hx-trigger="click"
+          <button type="button" name="print-response" hx-post="/v1/print/json" hx-trigger="click"
             hx-include="[name='screen-choice']:checked, [name='contoh-response'], [name='update-response']"
             hx-target="#response-print" hx-swap="innerHTML"
             class="cursor-pointer btn rounded-md bg-ijo px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-500">
@@ -143,14 +154,12 @@
 
 </html>
 <script>
-
-document.addEventListener("htmx:afterSwap", function (event) {
-
+  document.addEventListener("htmx:afterSwap", function (event) {
     let textarea = document.getElementById("resultTextarea");
 
     // CHECK IF DOESN'T HAVE TEXTAREA VALUE
     if (textarea == null || textarea == undefined) {
-      return
+      return;
     }
 
     // TIDY THE JSON DEPEND ON HTML ATTRIBUTE
@@ -161,19 +170,23 @@ document.addEventListener("htmx:afterSwap", function (event) {
 
       // Reorder JSON based on field order
       const reorderedJson = Object.fromEntries(
-        fieldKeys.map((key) => [key, jsonData[key]]).filter(([key, value]) => value !== undefined)
+        fieldKeys
+          .map((key) => [key, jsonData[key]])
+          .filter(([key, value]) => value !== undefined),
       );
 
       textarea.value = JSON.stringify(reorderedJson, null, 4); // Beautify with 4 spaces
     } catch (e) {
       console.error("Invalid JSON:", e);
     }
-});
+  });
 
-document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
     const contohResponse = document.querySelector("[name='contoh-response']");
     const updateResponse = document.querySelector("[name='update-response']");
-    const submitButton = document.querySelector("button[name='print-response']");
+    const submitButton = document.querySelector(
+      "button[name='print-response']",
+    );
 
     function formatJSON(textarea) {
       try {
@@ -201,9 +214,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Jalankan saat halaman dimuat
     toggleSubmitButton();
-});
-// Copy Result
-document.querySelectorAll(".btn-copy").forEach((button) => {
+  });
+  // Copy Result
+  document.querySelectorAll(".btn-copy").forEach((button) => {
     button.addEventListener("click", function () {
       const textToCopy = document.querySelector(".textToCopy"); // Ganti ke .textToCopy karena ID resultTextarea dipakai dua kali
 
@@ -212,96 +225,95 @@ document.querySelectorAll(".btn-copy").forEach((button) => {
         return;
       }
 
-      navigator.clipboard.writeText(textToCopy.value).then(() => {
-        showToast("✅ Teks berhasil disalin!");
-      }).catch((err) => {
-        console.error(err);
-        showToast("❌ Gagal menyalin teks!");
-      });
+      navigator.clipboard
+        .writeText(textToCopy.value)
+        .then(() => {
+          showToast("✅ Teks berhasil disalin!");
+        })
+        .catch((err) => {
+          console.error(err);
+          showToast("❌ Gagal menyalin teks!");
+        });
     });
-});
+  });
 
-function showToast(message) {
-    const toast = document.querySelector('.toast');
-    const messageEl = toast.querySelector('.toast-message');
+  function showToast(message) {
+    const toast = document.querySelector(".toast");
+    const messageEl = toast.querySelector(".toast-message");
 
     if (!toast || !messageEl) return;
 
     messageEl.textContent = message;
 
-    toast.classList.remove('hidden', 'translate-x-full', 'opacity-0');
-    toast.classList.add('translate-x-0', 'opacity-100');
+    toast.classList.remove("hidden", "translate-x-full", "opacity-0");
+    toast.classList.add("translate-x-0", "opacity-100");
 
     // Auto hide after 3 seconds
     setTimeout(() => {
-      toast.classList.add('translate-x-full', 'opacity-0');
+      toast.classList.add("translate-x-full", "opacity-0");
       setTimeout(() => {
-        toast.classList.add('hidden');
+        toast.classList.add("hidden");
       }, 500); // delay sesuai animasi
     }, 3000);
   }
 
   // Optional: tombol silang dismiss manual
   document.querySelector(".toast button").addEventListener("click", () => {
-    const toast = document.querySelector('.toast');
-    toast.classList.add('translate-x-full', 'opacity-0');
+    const toast = document.querySelector(".toast");
+    toast.classList.add("translate-x-full", "opacity-0");
     setTimeout(() => {
-      toast.classList.add('hidden');
+      toast.classList.add("hidden");
     }, 500);
-});
-
-// Paste Result
-document.querySelectorAll(".btn-paste").forEach((button) => {
-  button.addEventListener("click", async function () {
-    const targetId = this.getAttribute('data-target');
-    const textToPaste = document.getElementById(targetId);
-
-    if (!textToPaste) {
-      showToast("Textarea tidak ditemukan.", true);
-      return;
-    }
-
-    if (!navigator.clipboard) {
-      showToast("Clipboard API tidak tersedia di browser kamu.", true);
-      return;
-    }
-
-    try {
-      const clipboardText = await navigator.clipboard.readText();
-      textToPaste.value = clipboardText;
-      showToast("Pasted text successfully!");
-    } catch (err) {
-      console.error("Failed to paste: ", err);
-      showToast("Clipboard access denied or not supported.", true);
-    }
   });
-});
 
-// Fungsi untuk clear semua textarea
-function clearAllTextarea() {
-  const textareas = ['contohTextarea', 'updateTextarea', 'resultTextarea'];
-  textareas.forEach(id => {
-    const textarea = document.getElementById(id);
-    if (textarea) {
-      textarea.value = '';
-    }
+  // Paste Result
+  document.querySelectorAll(".btn-paste").forEach((button) => {
+    button.addEventListener("click", async function () {
+      const targetId = this.getAttribute("data-target");
+      const textToPaste = document.getElementById(targetId);
+
+      if (!textToPaste) {
+        showToast("Textarea tidak ditemukan.", true);
+        return;
+      }
+
+      if (!navigator.clipboard) {
+        showToast("Clipboard API tidak tersedia di browser kamu.", true);
+        return;
+      }
+
+      try {
+        const clipboardText = await navigator.clipboard.readText();
+        textToPaste.value = clipboardText;
+        showToast("Pasted text successfully!");
+
+        // 🔥 Trigger HTMX POST from this button
+        htmx.trigger(button, "do-paste-submit");
+      } catch (err) {
+        console.error("Failed to paste: ", err);
+        showToast("Clipboard access denied or not supported.", true);
+      }
+    });
   });
-  showToast("All textarea cleared!");
-}
 
-   // Jika belum lihat screen.html, redirect dulu
-if (!localStorage.getItem("hasVisitedScreen")) {
-  localStorage.setItem("hasVisitedScreen", "true");
-  window.location.href = "/screen";
-}
-
-async function readClipboard() {
-  try {
-    const text = await navigator.clipboard.readText();
-    alert("Clipboard: " + text);
-  } catch (err) {
-    alert("Clipboard error: " + err.message);
+  // Fungsi untuk clear semua textarea
+  function clearAllTextarea() {
+    const textareas = ["contohTextarea", "updateTextarea", "resultTextarea"];
+    textareas.forEach((id) => {
+      const textarea = document.getElementById(id);
+      if (textarea) {
+        textarea.value = "";
+      }
+    });
+    showToast("All textarea cleared!");
   }
-}
 
+  async function readClipboard() {
+    try {
+      const text = await navigator.clipboard.readText();
+      alert("Clipboard: " + text);
+    } catch (err) {
+      alert("Clipboard error: " + err.message);
+    }
+  }
 </script>
