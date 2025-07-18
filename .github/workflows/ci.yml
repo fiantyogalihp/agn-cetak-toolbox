@@ -48,6 +48,7 @@ jobs:
           mv cetak-toolbox build/
           mv cetak-toolbox-wins.exe build/
           mv static/output.css build/static/output.css
+          mv static/favicon.ico build/static/favicon.ico
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
